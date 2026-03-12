@@ -1,0 +1,40 @@
+.footer-container {
+    background-color:rgba(75, 83, 32);
+    justify-content: space-between;
+    align-items: start;
+    display: flex;
+}
+.footer-container section{
+    color:white;
+    display: flex;
+    flex-direction: column;
+    padding:50px 90px;
+    gap:16px;
+}
+
+.footer-div{
+    color:white;
+    flex-direction: column;
+    display: flex;
+    gap:16px;
+}
+.media-sosial {
+    display: flex;
+    flex-direction: column;
+}
+.media-container {
+    display: flex;
+    flex-direction: row;
+    padding:40px;
+    gap:30px;
+}
+
+.media-sosial div img{
+    background-color: azure;
+    border-radius: 15px;
+    padding:4px;
+}
+
+
+
+

@@ -1,0 +1,150 @@
+/* Navbar */
+.nav-container{
+  background-color: rgba(75, 83, 32);
+  width: 100%;
+  position:fixed;
+  align-items: center;
+  border-radius: 0p;
+  z-index: 999;
+}
+
+
+.navbar {
+  display:flex;
+  justify-content:space-between;
+  align-items: center;
+  position:relative;
+  padding: 10px 100px 10px 100px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navbar nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.navbar nav a:hover {
+  text-decoration: underline;
+}
+/* akun */
+.Account{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:24px;
+  color: white;
+  max-width: 285px;
+}
+.reg-btn {
+  background-color: #ffffff;
+  border:none;
+  padding: 10px 20px 10px 20px;
+  color:#4B5320;
+  font-size: 16px;
+  border-radius: 30px;
+}
+.reg-btn:hover{
+  background-color: #d87300;
+  cursor: pointer;
+}
+/* login */
+.log-btn {
+  color:white;
+  text-decoration: none;
+  display:flex ;
+  gap: 15px;
+  align-items: center;
+}
+
+.masuk{
+  justify-content: center;
+}
+.masuk:hover{
+  color: #ccc;
+}
+
+
+.kategori-head{
+  cursor:default;
+  text-decoration: none;
+}
+.kategori-head:hover {
+  text-decoration: none !important;
+}
+
+.cartBox {
+  position: relative; 
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  
+}
+.cart-num{
+  position:absolute;
+  background-color: rgb(255, 102, 0);
+  padding:2px 4px 2px 4px;
+  font-size: 11;
+  border-radius: 50%;
+  top: 0px;    
+  right: 0px;  
+  color:white;
+}
+
+.search-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 600px;
+  display:flex;
+  padding: 10px 15px 10px 48px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+
+.search-input:focus {
+  border-color: #2E7D32;
+}
+
+.search-icon {
+  position: absolute;
+  left:18px;
+  opacity: 0.5;
+}
+
+.nav-container section{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap:20px;
+}
+
+/* more */
+.more {
+  display: flex;
+  flex-direction: column;
+}
+.option-list{
+  margin-top: 40px;
+  padding:20px 30px 20px 10px;
+  gap:14px;
+  background-color: #4B5320;
+  display:flex;
+  flex-direction:column;
+  position:absolute;
+  font-size:14px;
+  border-radius: 20px;
+  flex-wrap: wrap;
+  max-height: 250px;
+  opacity: 90%;
+}

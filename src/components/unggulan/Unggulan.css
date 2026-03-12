@@ -1,0 +1,62 @@
+.cat-container{
+position: relative;
+background-color: rgba(110, 123, 41, 1);
+padding:10px;
+align-items: center;
+width: 100%;
+}
+
+.cat-bar{
+    padding:0px 50px 0px 50px;
+    display: flex;
+    flex-direction: row;
+    gap:30px;
+    align-items: center;
+    position:relative;
+    max-width: 1400px;
+    justify-content:space-between;
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+.text{
+    padding:20px 35px 20px 35px;
+    align-items:center;
+    text-align: left;
+    color: white;
+    font-size: 20px;
+}
+
+.best-cat{
+    padding:10px;
+    display: flex;
+    flex-direction: row;
+    gap:10px;
+}
+
+.cat-card {
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  transition: transform 0.2s ease;
+  padding: 50px 5px 30px 5px;
+  text-align: center;
+  color:white;
+  padding: 10px;
+  gap:10px;
+}
+
+.cat-card:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+}
+
+.cat-gambar {
+    background-color: white;
+    padding:60px;
+    border-radius: 20px;
+}

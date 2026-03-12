@@ -1,0 +1,145 @@
+.register-container,.login-container {
+    margin:0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 0px 0px 300px 0px;
+}
+.register-card, .login-card{
+    width:420px;
+    padding:70px 40px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.register-card h2,.login-card h2{
+    color:#4a5320;
+    margin-bottom:20px;
+    text-align: start;
+    font-size: 18px;
+}
+
+.register-card input,.login-card input{
+    width:100%;
+    padding:14px 18px;
+    margin-bottom:18px;
+
+    border:none;
+    border-radius:30px;
+
+    background:#efefef;
+    font-size:15px;
+
+    outline:none;
+}
+
+.register-card label,.login-card label{
+    font-size:14px;
+    color:#333;
+    margin-bottom:10px;
+    display:block;
+    text-align: start;
+}
+
+.register-card button,.login-card button{
+    width:100%;
+    padding:15px;
+
+    border:none;
+    border-radius:30px;
+
+    background:#4a5320;
+    color:white;
+    font-size:18px;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.register-container,.login-container{
+  /* Ganti URL ini dengan link gambar atau path gambar lokal kamu */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.37)),url('/asset/images/bali-indonesia.jpg');
+  
+  /* Biar gambar menutupi seluruh div tanpa jadi gepeng */
+  background-size: cover;
+  
+  /* Biar fokus gambar tetap di tengah walaupun layar di-resize */
+  background-position: center;
+  
+  /* Mencegah gambar berulang (tiling) kalau div lebih besar dari gambar */
+  background-repeat: no-repeat;
+  
+  /* Tentukan tinggi div-nya. Kalau tingginya 0, wallpapernya nggak bakal kelihatan */
+  height: 900px;
+  opacity: 1;
+  padding:320px 0px 300px 0px;
+  
+  /* Flexbox biar tulisan di dalam banner gampang ditaruh di tengah */
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  color: white;
+  text-align: center;
+}
+
+.option-login {
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+    gap:2px;
+    margin: 0 auto;
+}
+.option-login p {
+    color: #333;
+    padding:20px 0px 5px 0px;   
+    font-size: 12px;
+    margin: 0;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #333; /* Warna teks */
+  margin: 10px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #333; /* Warna dan ketebalan garis */
+}
+
+.divider:not(:empty)::before {
+  margin-right: 15px; /* Jarak garis kiri ke teks */
+}
+
+.divider:not(:empty)::after {
+  margin-left: 15px; /* Jarak teks ke garis kanan */
+}
+
+.divider span {
+  font-family: sans-serif;
+  font-size: 14px;
+  text-transform: lowercase;
+}
+
+.option-google {
+    margin-top: 25px;
+    padding:10px 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap:20px;
+    color:#333;
+    border-radius: 30px;
+    background-color: #3b42180c;
+}
+
+form a{
+    text-decoration: none;
+}

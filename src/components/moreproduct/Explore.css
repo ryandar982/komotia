@@ -1,0 +1,29 @@
+
+.explore-container{
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding:0px 0px 0px 43px;
+}
+.explore-head {
+    margin-top:30px;
+    color: rgba(75, 83, 32);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:10px;
+    
+}
+.explore-head div{
+    display: flex;
+    flex-direction: column;
+}
+.explore-product {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:20px;
+}

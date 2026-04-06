@@ -9,7 +9,7 @@ export default function Navbar({ search, setSearch }) {
     <header className="nav-container">
         <section className="navbar">
             <Link to='/'>
-                <img className="logo" src='asset/images/komotia.png' height="35" alt="Logo" />
+                <img className="logo" src='/asset/images/komotia.png' height="35" alt="Logo" />
             </Link>
             <section classaName="">
                 <section className="search-section">
@@ -50,12 +50,14 @@ export default function Navbar({ search, setSearch }) {
                 </section>
             </Link>
             <section className='Account'>
-                {/* <Profilecard/>  */}
-                <img href="/cart" className="reg-icon" src='asset/images/profile.png' height="30" alt="Profile" />
-                <a className="log-btn" href="/login">Masuk</a>
+                <Profilecard/> 
+                {/* <img href="/cart" className="reg-icon" src='asset/images/profile.png' height="30" alt="Profile" />
+                <Link to="/login">
+                    <a className="log-btn" href=''>Masuk</a>
+                </Link>
                 <Link to="/register">
                     <button className="reg-btn" href='/register'>Daftar Sekarang</button>
-                </Link>
+                </Link> */}
             </section>
             
             

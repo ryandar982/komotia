@@ -14,9 +14,15 @@ export default function Ongkiroffer({}){
                 <Link className='product-link'to='/product'>
                   <Card/>
                 </Link>
-                <Card/>
-                <Card/>
-                <Card/>
+                <Link className='product-link'to='/product'>
+                  <Card/>
+                </Link>
+                <Link className='product-link'to='/product'>
+                  <Card/>
+                </Link>
+                <Link className='product-link'to='/product'>
+                  <Card/>
+                </Link>
             </div>
         </div>
     )

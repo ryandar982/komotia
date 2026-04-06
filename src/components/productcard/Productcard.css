@@ -1,14 +1,10 @@
-.product-image {
-  width: 200px;
-  height: 200px;;
-  object-fit: cover;
-}
-
-.product-display{
+.product-display {
     background-color: rgb(255, 255, 255);
-    padding:3px;
-    max-width: 206px;
-    max-height:333px;
+    padding: 3px;
+    /* Hapus max-width statis, ganti jadi 100% agar ikut kotak Grid */
+    width: 100%; 
+    box-sizing: border-box;
+    /* Pertahankan tinggi minimal kamu */
     min-height: 333px;
     display: flex;
     flex-direction: column;
@@ -16,19 +12,27 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.105), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
-.product-display:hover{
+.product-image {
+    /* Gambar sekarang lebarnya mengikuti kartu */
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-display:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
-.product-info{
-    background-color: rgb(255, 255, 255);
+.product-info {
+    /* Tetap mempertahankan warna biru penandamu */
+    background-color: rgb(255, 255, 255); 
     display: flex;
     flex-direction: row;
-    padding:0px;
+    padding: 0px;
+    flex: 1; /* Agar mengisi sisa ruang di bawah gambar */
 }
 
-.product-info h1{
+.product-info h1 {
     font-size: 18px;
     display: flex;
     flex-direction: column;
@@ -38,7 +42,8 @@
     text-decoration: none;
     color: black;
 }
-.product-info h2{
+
+.product-info h2 {
     font-size: 18px;
     display: flex;
     flex-direction: column;
@@ -47,48 +52,50 @@
     text-decoration: none;
     color: black;
 }
-.product-info p{
-    color:black;
+
+.product-left {
+    display: flex;
+    flex-direction: column;
+    /* Ganti max-width statis jadi fleksibel */
+    flex: 1; 
+    gap: 10px;
+    overflow: hidden;
+    min-width: 0; /* Penting agar teks panjang tidak merusak lebar */
 }
 
-.product-right{
+.product-right {
     display: flex;
     flex-direction: column;
     justify-content: end;
     gap: 5px;
-}
-.product-left{
-    display: flex;
-    flex-direction: column;
-    max-width: 150px;
-    gap:10px;
-    overflow: hidden;
+    margin-left: 5px;
 }
 
+/* Sisanya (star-icon, tooltip, add-cart) tetap sama seperti kodemu sebelumnya */
 .product-rate {
     display: flex;
     flex-direction: row;
-    gap:3px;
+    gap: 3px;
     font-size: 12px;
     align-items: center;
 }
 
-
 .star-icon {
   height: 20px;
-  padding:0px 0px 3px 0px;
+  padding: 0px 0px 3px 0px;
 }
 
-.add-cart{
-    height:25px;
+.add-cart {
+    height: 25px;
     position: relative;
     display: inline-block;
 }
 
-.add-cart:hover{
-    height:27px;
-    opacity:0.8;
+.add-cart:hover {
+    height: 27px;
+    opacity: 0.8;
 }
+
 .tooltip {
   position: absolute;
   bottom: -32px; 

@@ -1,49 +1,90 @@
-
-.explore-container{
+.explore-container {
     align-items: center;
     justify-content: center;
     margin-top: 120px;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding:0px 0px 0px 43px;
-    margin-bottom:50px;
+    padding: 0px 0px 0px 43px;
+    margin-bottom: 50px;
 }
+
 .explore-head {
-    margin-top:30px;
+    margin-top: 30px;
     color: rgba(75, 83, 32);
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap:10px;
-    
+    gap: 10px;
 }
-.explore-head div{
+
+.explore-head div {
     display: flex;
     flex-direction: column;
 }
+
 .explore-product {
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap:20px;
+    display: grid;
+    /* Menggunakan Grid agar card mengisi ruang otomatis (tidak cuma di tengah) */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    width: 100%;
 }
+
 .categories-pick {
     display: flex;
     flex-direction: row;
-    gap:20px;
-    padding:10px 0px 20px 0px;
+    gap: 20px;
+    padding: 10px 0px 20px 0px;
 }
-.categories-pick button{
-    display:flex;
+
+.categories-pick button {
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding:3px 20px;
-    gap:10px;
+    padding: 3px 20px;
+    gap: 10px;
     border-radius: 9px;
     border-width: 1px;
 }
-.categories-pick button:hover{
+
+.categories-pick button:hover {
     background-color: rgba(0, 0, 0, 0.203);
     cursor: pointer;
+}
+
+/* =========================================
+    RESPONSIVE UNTUK CATEGORIES PICK & GRID
+   ========================================= */
+
+@media screen and (max-width: 768px) {
+    .explore-container {
+        padding: 0 20px;
+        margin-top: 40px;
+        margin-left: 0; /* Agar seimbang di layar kecil */
+    }
+
+    .categories-pick {
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 15px;
+    }
+
+    .categories-pick::-webkit-scrollbar {
+        display: none;
+    }
+
+    .categories-pick button {
+        flex: 0 0 auto;
+        padding: 8px 15px;
+    }
+
+    .explore-product {
+        /* Di HP, minimal lebar card 140px agar muat 2 kolom di layar sempit */
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 20px;
+        justify-content: center;
+    }
 }

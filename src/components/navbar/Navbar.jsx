@@ -9,7 +9,7 @@ export default function Navbar({ search, setSearch }) {
     <header className="nav-container">
         <section className="navbar">
             <Link to='/'>
-                <img className="logo" src='/asset/images/komotia.png' height="35" alt="Logo" />
+                <img className="logo" src='asset/images/komotia.png' height="35" alt="Logo" />
             </Link>
             <section classaName="">
                 <section className="search-section">

@@ -21,7 +21,7 @@ export default function Productcard({}){
                     <h2>Rp 51.000</h2>
                     <div className="product-rate">
                         <img 
-                        src="/asset/images/star-yes-rate.png" 
+                        src="asset/images/star-yes-rate.png" 
                         className="star-icon"
                         />
                         <p>Tidak ada ulasan</p>

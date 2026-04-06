@@ -1,6 +1,3 @@
-
-
-
 .offer-container {
     display: flex;
     justify-content: center;
@@ -8,6 +5,7 @@
     margin: 0 auto;
     width: 100%;
 }
+
 .list-container {
     display: flex;
     flex-direction: row;
@@ -53,7 +51,6 @@
     display: flex;
 }
 
-
 .freeong-banner{
     padding:25px 3px 3px 3px;
     max-width: 206px;
@@ -71,3 +68,6 @@
     font-size: 18px;
 }
 
+.product-link {
+    text-decoration: none;
+}

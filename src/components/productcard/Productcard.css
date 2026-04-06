@@ -35,6 +35,8 @@
     overflow: hidden;
     max-height: 57px;
     min-height: 57px;
+    text-decoration: none;
+    color: black;
 }
 .product-info h2{
     font-size: 18px;
@@ -42,6 +44,11 @@
     flex-direction: column;
     overflow: hidden;
     max-height: 21px;
+    text-decoration: none;
+    color: black;
+}
+.product-info p{
+    color:black;
 }
 
 .product-right{

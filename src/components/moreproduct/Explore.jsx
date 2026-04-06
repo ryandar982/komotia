@@ -12,6 +12,24 @@ export default function Explore() {
                 <p>Rekomendasi produk terbaik</p>
             </div>
         </div>
+        <div className='categories-pick'>
+            <button>
+                <img src='asset/images/free-dev.png'width='30'/>
+                Pupuk Organik
+            </button>
+            <button>
+                <img src='asset/images/free-dev.png'width='30'/>
+                Kategori 2
+            </button>
+            <button>
+                <img src='asset/images/free-dev.png'width='30'/>
+                Kategori 3
+            </button>
+            <button>
+                <img src='asset/images/free-dev.png'width='30'/>
+                Kategori 4
+            </button>
+        </div>
         <div className='explore-product'>
             <Card/>
             <Card/>

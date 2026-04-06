@@ -16,7 +16,7 @@ export default function Productcard({}){
             <div className='product-info'>
                 <div className='product-left'>
                     <h1 ref={textRef}>
-                        Pupuk Organik Curah Berkualitas | Gembong Shop
+                        Pupuk Organik Berkualitas | Bang Doel Shop
                     </h1>
                     <h2>Rp 51.000</h2>
                     <div className="product-rate">
@@ -28,7 +28,7 @@ export default function Productcard({}){
                     </div>
                 </div>
                 <div className='product-right'>
-                    <img src="asset/images/free-dev.png" height="25"/>
+                    <img className='images-container'src="asset/images/free-dev.png" height="25"/>
                     <a className="add-cart"href="">
                         <img className="add-cart" src="asset/images/add-cart.png"/>
                         <span className="tooltip">Tambah ke Keranjang</span>

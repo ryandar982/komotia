@@ -56,7 +56,6 @@ export default function Loginform() {
             <p>Login dengan Google</p>
           </div>
         </Link>
-
       </form>
     </div>
   );

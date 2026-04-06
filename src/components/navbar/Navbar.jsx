@@ -43,10 +43,12 @@ export default function Navbar({ search, setSearch }) {
                     )}
                 </section>
             </section>
-            <section className='cartBox'>
-                <img className='cart' src='asset/images/2.png' height="25" alt="Cart" />
-                <p className="cart-num">0</p>
-            </section>
+            <Link to='/cart'>
+                <section className='cartBox'>
+                    <img className='cart' src='asset/images/2.png' height="25" alt="Cart" />
+                    <p className="cart-num">0</p>
+                </section>
+            </Link>
             <section className='Account'>
                 {/* <Profilecard/>  */}
                 <img href="/cart" className="reg-icon" src='asset/images/profile.png' height="30" alt="Profile" />

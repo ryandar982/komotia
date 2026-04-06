@@ -1,0 +1,21 @@
+.seller-nav-container{
+  background-color: rgba(75, 83, 32);
+  width: 100%;
+  position:fixed;
+  align-items: center;
+  border-radius: 0p;
+  z-index: 999;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.331);
+  border: none;
+}
+
+.seller-nav-main {
+  display:flex;
+  justify-content:space-between;
+  align-items: center;
+  position:relative;
+  padding: 10px 100px 10px 100px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}

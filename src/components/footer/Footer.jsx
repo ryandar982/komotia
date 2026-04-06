@@ -4,6 +4,7 @@ import './Footer.css';
 export default function Footer() {
   return (
     <div className='footer-container'>
+    <div className='footer-main'>
         <section className=''>
             <img src='asset/images/komotia.png' width='130'/>
             <p>Platform terpercaya untuk melacak dan<br/>
@@ -32,12 +33,13 @@ export default function Footer() {
             <h2>Ikuti Kami</h2>
             <div className='media-sosial'>
                 <div classname='media-container'>
-                    <img src='asset/images/instagram.png' width='45'/>
-                    <img src='asset/images/facebook.png' width='45'/>
-                    <img src='asset/images/twitter.png' width='45'/>
+                    <img src='asset/images/instagram.png' width='35'/>
+                    <img src='asset/images/facebook.png' width='35'/>
+                    <img src='asset/images/twitter.png' width='35'/>
                 </div>
             </div>
         </section>
+    </div>
     </div>
   )
 }

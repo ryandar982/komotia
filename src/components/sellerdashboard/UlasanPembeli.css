@@ -1,0 +1,236 @@
+/* Container Utama */
+.up-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  color: #333;
+}
+
+/* Header */
+.up-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+}
+
+.up-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Layout Grid Kiri dan Kanan */
+.up-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* --- Bagian Sidebar (Kiri) --- */
+.up-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.up-rating-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.up-rating-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.up-icon-info {
+  font-size: 12px;
+  color: #999;
+  cursor: pointer;
+}
+
+.up-rating-big-star {
+  font-size: 48px;
+  color: #ffc107; /* Warna kuning bintang */
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.up-rating-score {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.up-rating-score strong {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.up-rating-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.up-rating-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.up-stars {
+  color: #ffc107;
+  letter-spacing: 2px;
+}
+
+.up-star-empty {
+  color: #e5e7eb;
+}
+
+.up-count {
+  color: #666;
+  min-width: 24px;
+  text-align: right;
+}
+
+/* --- Bagian Main (Kanan) --- */
+.up-main-content {
+  flex-grow: 1;
+}
+
+/* Filter Dropdown & Button */
+.up-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.up-select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  background-color: #fff;
+}
+
+.up-filter-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.up-pill {
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.up-pill.active {
+  border-color:  rgba(75, 83, 32);
+  color:  rgba(75, 83, 32);
+  background-color: #eff6ff;
+}
+
+.up-pill:hover:not(.active) {
+  background-color: #f9fafb;
+}
+
+.up-star-icon {
+  color: #ffc107;
+}
+
+/* List Ulasan */
+.up-reviews-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.up-review-item {
+  display: flex;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.up-review-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.up-review-content {
+  flex-grow: 1;
+}
+
+.up-review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.up-reviewer-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.up-review-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.up-review-stars {
+  margin-bottom: 8px;
+}
+
+.up-stars-text {
+  color: #ffc107;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.up-review-product {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+  background-color: #f9fafb;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.up-review-product strong {
+  color: #333;
+}
+
+.up-review-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: #444;
+}

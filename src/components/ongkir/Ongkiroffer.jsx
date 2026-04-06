@@ -1,5 +1,6 @@
 import './Ongkiroffer.css';
 import Card from '../productcard/Productcard'
+import { Link } from "react-router-dom";
 
 export default function Ongkiroffer({}){
     return (
@@ -10,7 +11,9 @@ export default function Ongkiroffer({}){
                     <h1>Gratis Ongkir</h1>
                     <p>Lebih hemat<br/>dengan promo<br/> gratis ongkir</p>
                 </div>
-                <Card/>
+                <Link className='product-link'to='/product'>
+                  <Card/>
+                </Link>
                 <Card/>
                 <Card/>
                 <Card/>

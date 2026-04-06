@@ -7,6 +7,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding:0px 0px 0px 43px;
+    margin-bottom:50px;
 }
 .explore-head {
     margin-top:30px;
@@ -26,4 +27,23 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap:20px;
+}
+.categories-pick {
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    padding:10px 0px 20px 0px;
+}
+.categories-pick button{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding:3px 20px;
+    gap:10px;
+    border-radius: 9px;
+    border-width: 1px;
+}
+.categories-pick button:hover{
+    background-color: rgba(0, 0, 0, 0.203);
+    cursor: pointer;
 }

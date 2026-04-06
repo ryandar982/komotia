@@ -1,20 +1,18 @@
-/* Navbar */
-.nav-container{
+.nav-container {
   background-color: rgba(75, 83, 32);
   width: 100%;
-  position:fixed;
+  position: fixed;
   align-items: center;
-  border-radius: 0p;
+  border-radius: 0;
   z-index: 999;
 }
 
-
 .navbar {
-  display:flex;
-  justify-content:space-between;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  position:relative;
-  padding: 10px 100px 10px 100px;
+  position: relative;
+  padding: 10px 100px;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -30,69 +28,72 @@
 .navbar nav a:hover {
   text-decoration: underline;
 }
-/* akun */
-.Account{
+
+.Account {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap:24px;
+  gap: 24px;
   color: white;
   max-width: 285px;
 }
+
 .reg-btn {
   background-color: #ffffff;
-  border:none;
-  padding: 10px 20px 10px 20px;
-  color:#4B5320;
+  border: none;
+  padding: 10px 20px;
+  color: #4B5320;
   font-size: 16px;
   border-radius: 30px;
 }
-.reg-btn:hover{
+
+.reg-btn:hover {
   background-color: #d87300;
   cursor: pointer;
 }
-/* login */
+
 .log-btn {
-  color:white;
+  color: white;
   text-decoration: none;
-  display:flex ;
+  display: flex;
   gap: 15px;
   align-items: center;
 }
 
-.masuk{
+.masuk {
   justify-content: center;
 }
-.masuk:hover{
+
+.masuk:hover {
   color: #ccc;
 }
 
-
-.kategori-head{
-  cursor:default;
+.kategori-head {
+  cursor: default;
   text-decoration: none;
 }
+
 .kategori-head:hover {
   text-decoration: none !important;
 }
 
 .cartBox {
-  position: relative; 
+  position: relative;
   display: inline-flex;
   align-items: center;
   padding: 10px;
   cursor: pointer;
-  
 }
-.cart-num{
-  position:absolute;
+
+.cart-num {
+  position: absolute;
   background-color: rgb(255, 102, 0);
-  padding:2px 4px 2px 4px;
-  font-size: 11;
+  padding: 2px 4px;
+  font-size: 11px;
   border-radius: 50%;
-  top: 0px;    
-  right: 0px;  
-  color:white;
+  top: 0px;
+  right: 0px;
+  color: white;
 }
 
 .search-section {
@@ -102,9 +103,9 @@
 }
 
 .search-input {
-  width: 600px;
-  display:flex;
-  padding: 10px 15px 10px 48px;
+  width: 500px;
+  display: flex;
+  padding: 10px 15px 10px 45px;
   border-radius: 20px;
   border: 1px solid #ccc;
   outline: none;
@@ -118,33 +119,85 @@
 
 .search-icon {
   position: absolute;
-  left:18px;
+  left: 18px;
   opacity: 0.5;
 }
 
-.nav-container section{
+.nav-container section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:20px;
+  gap: 20px;
 }
 
-/* more */
 .more {
   display: flex;
   flex-direction: column;
 }
-.option-list{
+
+.option-list {
   margin-top: 40px;
-  padding:20px 30px 20px 10px;
-  gap:14px;
+  padding: 20px 30px 20px 10px;
+  gap: 14px;
   background-color: #4B5320;
-  display:flex;
-  flex-direction:column;
-  position:absolute;
-  font-size:14px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  font-size: 14px;
   border-radius: 20px;
   flex-wrap: wrap;
   max-height: 250px;
-  opacity: 90%;
+  opacity: 0.9;
+}
+@media screen and (max-width: 570px) {
+  .Account {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .navbar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 15px 30px !important;
+    gap: 15px !important;
+  }
+
+  .navbar > a:first-child {
+    order: 1 !important;
+    flex: 1 !important;
+  }
+
+  .navbar > a:nth-child(3) {
+    order: 2 !important;
+  }
+
+  .navbar > section:nth-child(2) {
+    order: 4 !important;
+    flex: 0 0 100% !important;
+    margin: 0 !important;
+  }
+
+  .search-section {
+    width: 100% !important;
+    display: flex !important;
+  }
+
+  .search-input {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .Account {
+    order: 3 !important;
+    flex: 0 0 100% !important;
+    justify-content: center !important;
+    margin-top: 5px !important;
+  }
+
+  .more {
+    display: none !important;
+  }
 }

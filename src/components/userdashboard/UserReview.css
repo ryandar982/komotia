@@ -1,0 +1,204 @@
+/* Container & Global */
+.ur-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f5f7;
+  min-height: 100vh;
+  padding: 24px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Header */
+.ur-header {
+  margin-bottom: 24px;
+}
+
+.ur-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Tabs */
+.ur-tabs-container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.ur-tabs {
+  display: flex;
+  gap: 32px;
+}
+
+.ur-tab {
+  padding: 16px 0;
+  font-size: 15px;
+  color: #6b7280;
+  cursor: pointer;
+  font-weight: 600;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.ur-tab.active {
+  color: rgba(75, 83, 32);
+  border-bottom-color: rgba(75, 83, 32);
+}
+
+.ur-tab:hover:not(.active) {
+  color: #374151;
+}
+
+/* List & Cards */
+.ur-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ur-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.ur-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Product Info */
+.ur-product-info {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+}
+
+.ur-product-image {
+  width: 80px;
+  height: 80px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ur-img-placeholder {
+  color: #9ca3af;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ur-product-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.ur-product-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.ur-product-variant {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+}
+
+.ur-order-date {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Rating & Review Section */
+.ur-rating-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ur-stars {
+  color: #f59e0b; /* Warna Emas */
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.ur-review-date {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.ur-review-text {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Actions & Buttons */
+.ur-card-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 130px;
+}
+
+.ur-actions-column {
+  gap: 8px;
+}
+
+.ur-btn-primary, .ur-btn-secondary {
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.ur-btn-primary {
+  background-color: rgba(75, 83, 32);
+  color: white;
+  border: none;
+}
+
+.ur-btn-primary:hover {
+  background-color: rgba(60, 68, 25);
+}
+
+.ur-btn-secondary {
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.ur-btn-secondary:hover {
+  background-color: #f9fafb;
+}
+
+/* Responsive adjust */
+@media (max-width: 768px) {
+  .ur-card-content {
+    flex-direction: column;
+  }
+  .ur-card-actions {
+    width: 100%;
+    align-items: stretch;
+  }
+}

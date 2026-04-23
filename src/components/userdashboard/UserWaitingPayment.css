@@ -1,0 +1,143 @@
+/* Container & Global */
+.uwp-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f5f7;
+  min-height: 100vh;
+  padding: 24px;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Header */
+.uwp-header {
+  margin-bottom: 24px;
+}
+
+.uwp-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* List & Cards */
+.uwp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.uwp-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+}
+
+.uwp-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.uwp-order-id {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.uwp-status-badge {
+  background-color: #fef08a; /* Kuning peringatan */
+  color: #854d0e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Body (Harga & Timer) */
+.uwp-card-body {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.uwp-label {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 4px 0;
+}
+
+.uwp-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(75, 83, 32); /* Mengikuti warna tema Komotia */
+  margin: 0;
+}
+
+.uwp-timer-section {
+  text-align: right;
+}
+
+.uwp-timer {
+  font-size: 14px;
+  font-weight: 600;
+  color: #dc2626; /* Merah untuk urgensi waktu */
+  margin: 0;
+}
+
+/* Footer (Buttons) */
+.uwp-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.uwp-btn-primary, .uwp-btn-secondary {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.uwp-btn-primary {
+  background-color: rgba(75, 83, 32);
+  color: white;
+  border: none;
+}
+
+.uwp-btn-primary:hover {
+  background-color: rgba(60, 68, 25);
+}
+
+.uwp-btn-secondary {
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.uwp-btn-secondary:hover {
+  background-color: #f9fafb;
+}
+
+/* Empty State */
+.uwp-empty-state {
+  padding: 60px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  min-height: 300px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.uwp-empty-text {
+  color: #6b7280;
+  font-size: 14px;
+}

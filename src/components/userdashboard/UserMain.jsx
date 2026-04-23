@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import './UserMain.css';
 import UserProfile from './UserProfile';
 import UserDashMain from './UserDashMain';
+import UserOrderHistory from './UserOrderHistory';
+import UserWaiting from './UserWaitingPayment';
+import UserReview from './UserReview';
 import { LayoutDashboard,UserRound } from 'lucide-react';
 import { PackageOpen } from 'lucide-react';
 import { History } from 'lucide-react';
@@ -104,10 +107,10 @@ export default function UserMain() {
         <div className='content-user' style={{ flex: 1, padding: '40px' }}>
           {activeUserMenu === 'Dashboard' && <UserDashMain /> }
           {activeUserMenu === 'Profile Saya' && <UserProfile />}
-          {/* {activeUserMenu === 'Menunggu Pembayaran' && <MenungguPembayaran />}
-          {activeUserMenu === 'Riwayat Transaksi' && <RiwayatTransaksi />} */}
+          {activeUserMenu === 'Menunggu Pembayaran' && <UserWaiting />}
+          {activeUserMenu === 'Riwayat Transaksi' && <UserOrderHistory />}
           {activeUserMenu === 'Wishlist' && <CartComp />}
-          {/* {activeUserMenu === 'Ulasan Saya' && <UlasanSaya />} */}
+          {activeUserMenu === 'Ulasan Saya' && <UserReview />}
         </div>
 
       </div>

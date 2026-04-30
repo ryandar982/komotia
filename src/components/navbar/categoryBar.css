@@ -1,0 +1,82 @@
+.catbar-container {
+    background-color: #00000027; 
+    width: 100%;
+}
+
+.catbar-content {
+    max-width: 1200px; 
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Mendorong elemen kiri dan kanan ke ujung */
+    padding: 6px 20px; 
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.catbar-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Container baru untuk menampung Kategori dan Link di sebelah kiri */
+.catbar-menu {
+    display: flex;
+    align-items: center;
+}
+
+.catbar-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.catbar-icon {
+    color: #ffffff;
+    width: 18px;
+    height: 18px;
+}
+
+.catbar-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.catbar-links a {
+    color: #e5e7eb; 
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.catbar-links a:hover {
+    color: #ffffff; 
+}
+
+/* Container untuk bagian kanan */
+.catbar-right {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .catbar-content {
+        padding: 5px 15px;
+    }
+    
+    .catbar-left {
+        margin-right: 15px;
+    }
+    
+    .catbar-links {
+        gap: 12px;
+    }
+}

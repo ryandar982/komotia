@@ -4,6 +4,12 @@
     align-items: center;
     padding: 30px;
     gap: 30px;
+    
+    /* TAMBAHKAN INI */
+    max-width: 1300px; /* Batas lebar maksimal */
+    margin: 0 auto;    /* Memastikan container tetap di tengah saat layar lebih lebar dari 1300px */
+    width: 100%;       /* Agar tetap responsif di layar kecil */
+    box-sizing: border-box;
 }
 
 .kolektif-text {
@@ -13,7 +19,6 @@
     align-items: center;
     gap: 8px;
 }
-
 .kolektif-header-icon {
     color: #4f6436; /* Warna ikon senada dengan tema UI kamu */
     margin-bottom: 5px;
@@ -35,11 +40,13 @@
 /* Container untuk membungkus kartu produk */
 .kolektif-content {
     display: flex;
-    flex-direction: row; /* Memaksa elemen berjejer ke samping */
+    flex-direction: row; 
     gap: 25px;
-    width: 70%;
+    
+    /* PERBAIKAN DI SINI */
+    width: 100%; /* Gunakan 100% dari parent (container yang sudah dibatasi 1300px) */
+    max-width: 1200px; /* Opsional: jika ingin kartu sedikit lebih rapat dibanding header-nya */
 }
-
 /* Desain Kartu Produk */
 .kolektif-card {
     background-color: #fff;
@@ -163,5 +170,10 @@
     .kolektif-content {
         flex-direction: column;
         gap: 20px;
+        width: 100%;
+    }
+    
+    .kolektif-container {
+        padding: 20px;
     }
 }

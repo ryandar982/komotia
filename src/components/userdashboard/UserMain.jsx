@@ -1,24 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserMain.css';
 import UserProfile from './UserProfile';
 import UserDashMain from './UserDashMain';
 import UserOrderHistory from './UserOrderHistory';
 import UserWaiting from './UserWaitingPayment';
 import UserReview from './UserReview';
-import { LayoutDashboard,UserRound } from 'lucide-react';
-import { PackageOpen } from 'lucide-react';
-import { History } from 'lucide-react';
-import { ClipboardClock } from 'lucide-react';
-import { ShoppingBag } from 'lucide-react';
-import { CircleStar } from 'lucide-react';
+import { LayoutDashboard, UserRound, PackageOpen, History, ClipboardClock, ShoppingBag, CircleStar } from 'lucide-react';
 import CartComp from '../cartcomponent/CartMain';
+import { dummyUsers } from "../../data/dummyUsers";
 
 export default function UserMain() {
-  // 1. STATE BEDA: Menggunakan penamaan khusus User
+  const [currentUser, setCurrentUser] = useState(null);
   const [isPesananOpen, setIsPesananOpen] = useState(false);
   const [activeUserMenu, setActiveUserMenu] = useState('Dashboard');
 
-  // 2. FUNGSI BEDA: Disetel untuk menu pesanan
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    const nameParts = name.trim().split(' ');
+    if (nameParts.length === 1) return nameParts[0].charAt(0).toUpperCase();
+    return (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
+  };
+
+  useEffect(() => {
+    const savedUserData = localStorage.getItem('user');
+    
+    if (savedUserData) {
+      const parsedUser = JSON.parse(savedUserData);
+      const foundUser = dummyUsers.find(user => user.username === parsedUser.username);
+      
+      if (foundUser && foundUser.dashboardData) {
+        setCurrentUser(foundUser.dashboardData);
+      }
+    } else {
+      const defaultUser = dummyUsers.find(user => user.username === 'ryandar');
+      if (defaultUser && defaultUser.dashboardData) {
+        setCurrentUser(defaultUser.dashboardData);
+      }
+    }
+  }, []);
+
   const togglePesanan = () => {
     setIsPesananOpen(!isPesananOpen);
   };
@@ -27,30 +47,64 @@ export default function UserMain() {
     setActiveUserMenu(menuName);
   };
 
-  // 3. LOGIKA DROPDOWN BEDA
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  };
+
   const isPesananSectionActive = activeUserMenu === 'Menunggu Pembayaran' || activeUserMenu === 'Riwayat Transaksi';
+
+  if (!currentUser) {
+    return <div style={{ padding: '40px' }}>Memuat data...</div>;
+  }
+
+  const { userProfile } = currentUser;
 
   return (
     <div className='container-dashboard'>
-      {/* 4. CLASS BEDA: main-seller diubah jadi main-user */}
       <div className='main-user'>
         
-        {/* SIDEBAR */}
         <div className='dashboard-side-bar'>
           <section>
-            <img className='dashboard-img' src='asset/images/KINGNANA.jpeg' width='50' alt="Profile User" />
-            <div className='dashboard-info user'> {/* class seller diubah jadi user */}
-              <h2>Nama Pembeli</h2>
-              <button className='status-user'>Member Silver</button> {/* status toko diubah jadi status user */}
+            {userProfile.profilePicture ? (
+                    <img 
+                        className="reg-icon" 
+                        src={userProfile.profilePicture} 
+                        style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }} 
+                        alt="Profile" 
+                    />
+                ) : (
+                    <div 
+                        className="reg-icon" 
+                        style={{
+                            width: '50px', // Diperbesar
+                            height: '50px', // Diperbesar
+                            borderRadius: '50%',
+                            backgroundColor: '#4CAF50', 
+                            color: '#ffffff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '14px', // Font diperbesar agar proporsional
+                            fontWeight: 'bold',
+                            flexShrink: 0
+                        }}
+                    >
+                        {getInitials(userProfile.fullName)}
+                    </div>
+                )}
+            <div className='dashboard-info user'>
+              <h2>{userProfile.fullName}</h2>
+              <button className='status-user'>{userProfile.membership}</button>
             </div>
           </section>
           
-          <div className='opsi-user-container'> {/* opsi-seller-container diubah */}
+          <div className='opsi-user-container'>
             <div 
               className={`opsi-user ${activeUserMenu === 'Dashboard' ? 'active' : ''}`} 
               onClick={() => handleUserMenuClick('Dashboard')}
             >
-              <LayoutDashboard />  Dashboard
+              <LayoutDashboard /> Dashboard
             </div>
             
             <div 
@@ -60,7 +114,6 @@ export default function UserMain() {
               <UserRound /> Profile Saya
             </div>
             
-            {/* MENU PESANAN (PARENT DROPDOWN) */}
             <div 
               className={`opsi-user ${isPesananSectionActive ? 'active' : ''}`} 
               onClick={togglePesanan} 
@@ -69,7 +122,6 @@ export default function UserMain() {
               <span className={`arrow-icon ${isPesananOpen ? 'open' : ''}`}></span> 
             </div>
 
-            {/* SUB-MENU PESANAN */}
             <div className={`sub-menu-user ${isPesananOpen ? 'open' : ''}`}>
               <div className='inner-sub-menu'>
                 <div 
@@ -100,17 +152,20 @@ export default function UserMain() {
             >
               <CircleStar /> Ulasan Saya
             </div>
+
+            <div className="opsi-user" onClick={handleLogout} style={{ marginTop: '20px', color: 'red' }}>
+              Keluar Akun
+            </div>
           </div>
         </div>
 
-        {/* AREA KONTEN KANAN */}
         <div className='content-user' style={{ flex: 1, padding: '40px' }}>
-          {activeUserMenu === 'Dashboard' && <UserDashMain /> }
-          {activeUserMenu === 'Profile Saya' && <UserProfile />}
-          {activeUserMenu === 'Menunggu Pembayaran' && <UserWaiting />}
-          {activeUserMenu === 'Riwayat Transaksi' && <UserOrderHistory />}
-          {activeUserMenu === 'Wishlist' && <CartComp />}
-          {activeUserMenu === 'Ulasan Saya' && <UserReview />}
+          {activeUserMenu === 'Dashboard' && <UserDashMain data={currentUser.dashboardSummary} walletBalance={userProfile.walletBalance} /> }
+          {activeUserMenu === 'Profile Saya' && <UserProfile data={userProfile} />}
+          {activeUserMenu === 'Menunggu Pembayaran' && <UserWaiting data={currentUser.waitingForPaymentList} />}
+          {activeUserMenu === 'Riwayat Transaksi' && <UserOrderHistory data={currentUser.orderHistory} />}
+          {activeUserMenu === 'Wishlist' && <CartComp data={currentUser.shoppingCart} />}
+          {activeUserMenu === 'Ulasan Saya' && <UserReview data={currentUser.reviews} />}
         </div>
 
       </div>

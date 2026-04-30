@@ -1,7 +1,10 @@
 import React from 'react';
 import './PengaturanProfile.css';
 
-export default function PengaturanAkun() {
+export default function PengaturanAkun({ profile }) {
+  // Antisipasi jika data profile belum ter-load
+  if (!profile) return null;
+
   return (
     <div className="pa-container">
       <div className="pa-header">
@@ -17,17 +20,16 @@ export default function PengaturanAkun() {
           {/* Kiri: Foto Profil */}
           <div className="pa-profile-left">
             <div className="pa-avatar-wrapper">
-              {/* Ganti src dengan foto aslinya nanti */}
               <img 
-                src='asset/images/KINGMU.png' 
-                alt="Profile" 
+                src={profile.avatarUrl} 
+                alt={`Profile ${profile.storeName}`} 
                 className="pa-avatar" 
               />
               <div className="pa-edit-badge">
                 <span>✏️</span>
               </div>
             </div>
-            <p className="pa-profile-name-text">Bang Doel</p>
+            <p className="pa-profile-name-text">{profile.ownerName}</p>
             <a href="#ubahfoto" className="pa-change-photo-link">Ubah Foto</a>
           </div>
 
@@ -36,7 +38,11 @@ export default function PengaturanAkun() {
             <div className="pa-form-group">
               <label className="pa-label">Nama Toko</label>
               <div className="pa-input-row">
-                <input type="text" className="pa-input" defaultValue="Andi Pratama" />
+                <input 
+                  type="text" 
+                  className="pa-input" 
+                  defaultValue={profile.storeName} 
+                />
                 <button className="pa-btn-outline">Ubah</button>
               </div>
             </div>
@@ -47,7 +53,7 @@ export default function PengaturanAkun() {
                 <input 
                   type="email" 
                   className="pa-input pa-input-disabled" 
-                  defaultValue="andi.pratama@email.com" 
+                  defaultValue={profile.email} 
                   readOnly 
                 />
                 <button className="pa-btn-outline">Ubah</button>
@@ -57,15 +63,17 @@ export default function PengaturanAkun() {
             <div className="pa-form-group">
               <label className="pa-label">Lokasi Toko</label>
               <div className="pa-input-row">
-                <input type="text" className="pa-input" defaultValue="Jl Mulyorejo Surabaya Timur " />
+                <input 
+                  type="text" 
+                  className="pa-input" 
+                  defaultValue={profile.address} 
+                />
                 <button className="pa-btn-outline">Ubah</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      
 
       {/* SECTION: NOTIFIKASI */}
       

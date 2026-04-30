@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './RiwayatPesanan.css';
 import Pesanan from './ItemPesanan';
 
-export default function RiwayatPesanan() {
+export default function RiwayatPesanan({ orders = [] }) {
+  // Set default tab ke 'Semua Pesanan' atau 'Perlu Diproses'
+  const [activeTab, setActiveTab] = useState('Semua Pesanan');
+
+  const tabs = [
+    'Perlu Diproses',
+    'Menunggu Konfirmasi',
+    'Pesanan Selesai',
+    'Sedang Dibatalkan',
+    'Pesanan Dibatalkan',
+    'Semua Pesanan'
+  ];
+
+  // Logika filter: jika tab "Semua Pesanan", tampilkan semua. 
+  // Jika tidak, filter berdasarkan status pesanan.
+  const filteredOrders = activeTab === 'Semua Pesanan' 
+    ? orders 
+    : orders.filter(order => order.status === activeTab);
+
   return (
     <div className="rp-container">
       {/* HEADER SECTION */}
@@ -14,17 +32,20 @@ export default function RiwayatPesanan() {
       <div className="rp-top-card">
         {/* TABS */}
         <div className="rp-tabs">
-          <div className="rp-tab active">Perlu Diproses</div>
-          <div className="rp-tab">Menunggu Konfirmasi</div>
-          <div className="rp-tab">Pesanan Selesai</div>
-          <div className="rp-tab">Sedang Dibatalkan</div>
-          <div className="rp-tab">Pesanan Dibatalkan</div>
-          <div className="rp-tab">Semua Pesanan</div>
+          {tabs.map((tab) => (
+            <div 
+              key={tab}
+              className={`rp-tab ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+              style={{ cursor: 'pointer' }}
+            >
+              {tab}
+            </div>
+          ))}
         </div>
 
         {/* CONTROLS (SEARCH & DROPDOWNS) */}
         <div className="rp-controls">
-          
           <select className="rp-select rp-select-medium">
             <option>Pilih Filter</option>
           </select>
@@ -36,19 +57,24 @@ export default function RiwayatPesanan() {
 
         {/* TAGS / PILLS */}
         <div className="rp-tags">
-          <button className="rp-tag active">Semua Pesanan</button>
+          <button className="rp-tag active">{activeTab}</button>
         </div>
       </div>
       
-      <Pesanan/>    
-
-      {/* EMPTY STATE SECTION */}
-      <div className="rp-bottom-card">
-        <div className="rp-empty-state">
-          {/* Kamu bisa ganti src gambar di bawah dengan aset aslimu */}
-          <p className="rp-empty-text">Kamu belum memiliki pesanan</p>
+      {/* RENDER KONDISIONAL: Tampilkan List Pesanan ATAU Empty State */}
+      {filteredOrders.length > 0 ? (
+        filteredOrders.map((order) => (
+          // Mengoper data order individual ke komponen ItemPesanan
+          <Pesanan key={order.id} order={order} />
+        ))
+      ) : (
+        <div className="rp-bottom-card">
+          <div className="rp-empty-state">
+            <p className="rp-empty-text">Kamu belum memiliki pesanan untuk kategori ini</p>
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 }

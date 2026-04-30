@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate untuk redirect
 import './Sellerdash.css';
-import DashMain from './SellerDashMain';;
+import DashMain from './SellerDashMain';
 import ProductManager from './ProductManager';
 import BuatDagangan from './BuatDagangan';
 import RiwayatPesanan from './RiwayatPesanan';
 import ProfileSeller from './PengaturanProfile';
 import UlasanPembeli from './UlasanPembeli';
-import { LayoutDashboard,UserRound,PackagePlus ,Package, Banknote} from 'lucide-react';
-import { PackageOpen } from 'lucide-react';
-import { History } from 'lucide-react';
-import { ClipboardClock } from 'lucide-react';
-import { ShoppingBag } from 'lucide-react';
-import { CircleStar } from 'lucide-react';
+import { 
+  LayoutDashboard, 
+  UserRound, 
+  PackagePlus, 
+  Package, 
+  PackageOpen,
+  ClipboardClock,
+  CircleStar,
+  LogOut // Import icon LogOut
+} from 'lucide-react';
+
+// Import dummy data yang sudah kita buat
+import { sellerData } from '../../data/sellerData'; 
+import { dummyProducts } from '../../data/dummyProducts';
 
 export default function SellerMain() {
   const [isProdukOpen, setIsProdukOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState('Dashboard');
+  
+  const navigate = useNavigate(); // Inisialisasi navigate
+
+  // Ekstrak profil dari sellerData untuk digunakan di sidebar
+  const { profile } = sellerData;
 
   const toggleProduk = () => {
     setIsProdukOpen(!isProdukOpen);
@@ -23,6 +37,18 @@ export default function SellerMain() {
 
   const handleMenuClick = (menuName) => {
     setActiveMenu(menuName);
+  };
+
+  // Fungsi untuk menangani Logout
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Apakah Anda yakin ingin keluar dari Seller Center?");
+    if (confirmLogout) {
+      // Di sini kamu bisa menambahkan logika untuk menghapus token/session jika ada
+      // localStorage.removeItem('sellerToken');
+      
+      // Arahkan kembali ke halaman login
+      navigate('/seller-login');
+    }
   };
 
   const isProdukSectionActive = activeMenu === 'Produk Saya' || activeMenu === 'Buat Produk Baru';
@@ -34,10 +60,12 @@ export default function SellerMain() {
         {/* SIDEBAR */}
         <div className='dashboard-side-bar'>
           <section>
-            <img className='dashboard-img' src='asset/images/KINGMU.png' width='50' alt="Profile" />
+            <img className='dashboard-img' src={profile.avatarUrl} width='50' alt="Profile Toko" />
             <div className='dashboard-info seller'>
-              <h2>Nama Toko MU</h2>
-              <button className='status-toko'>Toko Buka</button>
+              <h2>{profile.storeName}</h2>
+              <button className='status-toko'>
+                {profile.isOpen ? 'Toko Buka' : 'Toko Tutup'}
+              </button>
             </div>
           </section>
           
@@ -96,17 +124,27 @@ export default function SellerMain() {
             >
               <CircleStar/>Ulasan
             </div>
+
+            {/* TOMBOL LOGOUT */}
+            <div 
+              className="opsi-seller btn-logout" 
+              onClick={handleLogout}
+              style={{ marginTop: 'auto' }}
+            >
+              <LogOut/> Keluar
+            </div>
+            
           </div>
         </div>
 
         {/* AREA KONTEN KANAN */}
         <div className='tess' style={{ flex: 1, padding: '40px' }}>
-          {activeMenu === 'Dashboard' && <DashMain/> }
-          {activeMenu === 'Profile Toko' && <ProfileSeller/>}
-          {activeMenu === 'Pesanan' && <RiwayatPesanan/>}
-          {activeMenu === 'Produk Saya' && <ProductManager/>}
-          {activeMenu === 'Buat Produk Baru' && <BuatDagangan/>}
-          {activeMenu === 'Ulasan' && <UlasanPembeli/>}
+          {activeMenu === 'Dashboard' && <DashMain profile={profile} /> }
+          {activeMenu === 'Profile Toko' && <ProfileSeller profile={profile} />}
+          {activeMenu === 'Pesanan' && <RiwayatPesanan orders={sellerData.orders} />}
+          {activeMenu === 'Produk Saya' && <ProductManager products={dummyProducts} />}
+          {activeMenu === 'Buat Produk Baru' && <BuatDagangan />}
+          {activeMenu === 'Ulasan' && <UlasanPembeli reviews={sellerData.reviews} />}
         </div>
 
       </div>

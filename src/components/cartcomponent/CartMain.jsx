@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './CartMain.css';
 import { 
   MapPin, 
@@ -10,160 +10,240 @@ import {
   Truck 
 } from 'lucide-react';
 
-export default function CartMain() {
-  // Simulasi data keranjang belanja
-  const cartItems = [
-    {
-      id: 1,
-      toko: "Komotia Fresh",
-      nama: "Bibit Jagung | 1 Karung ",
-      gambar: "asset/images/bibit-jagung-stock.jpeg",
-      harga: 12500,
-      hargaCoret: 18000,
-      diskon: "30%",
-      stok: 45,
-      qty: 2,
-      pengiriman: "JNE Reguler"
-    },
-    {
-      id: 2,
-      toko: "Tani Makmur Jaya",
-      nama: "Pupuk Organik | 1 Karung",
-      gambar: "asset/images/pupuk-organik-stock.jpeg",
-      harga: 45000,
-      hargaCoret: 0,
-      diskon: null,
-      stok: 120,
-      qty: 1,
-      pengiriman: "JNT One Day"
+export default function CartMain({ data }) {
+  const [cartData, setCartData] = useState(data);
+
+  useEffect(() => {
+    if (data) {
+      setCartData(data);
+    } else {
+      const savedUserData = localStorage.getItem('user');
+      if (savedUserData) {
+        const parsedUser = JSON.parse(savedUserData);
+        if (parsedUser.dashboardData && parsedUser.dashboardData.shoppingCart) {
+          setCartData(parsedUser.dashboardData.shoppingCart);
+        }
+      }
     }
-  ];
+  }, [data]);
+
+  const formatRupiah = (number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    }).format(number);
+  };
+
+  const handleDelete = (storeId, cartItemId) => {
+    const isConfirmed = window.confirm("Apakah Anda yakin ingin menghapus produk ini dari keranjang?");
+    
+    if (!isConfirmed) return;
+
+    let updatedCart = { ...cartData };
+
+    const storeIndex = updatedCart.stores.findIndex(s => s.storeId === storeId);
+    
+    if (storeIndex > -1) {
+      updatedCart.stores[storeIndex].products = updatedCart.stores[storeIndex].products.filter(
+        p => p.cartItemId !== cartItemId
+      );
+
+      if (updatedCart.stores[storeIndex].products.length === 0) {
+        updatedCart.stores.splice(storeIndex, 1);
+      }
+
+      let totalQty = 0;
+      let totalOriginalPrice = 0;
+      let grandTotal = 0;
+
+      updatedCart.stores.forEach(store => {
+        store.products.forEach(item => {
+          if (item.isSelected) {
+            totalQty += item.quantity;
+            totalOriginalPrice += (item.originalPrice * item.quantity);
+            grandTotal += (item.finalPrice * item.quantity);
+          }
+        });
+      });
+
+      updatedCart.summary = {
+        totalSelectedQuantity: totalQty,
+        totalItemsOriginalPrice: totalOriginalPrice,
+        totalDiscount: totalOriginalPrice - grandTotal,
+        grandTotal: grandTotal
+      };
+
+      setCartData(updatedCart);
+
+      const savedUserData = localStorage.getItem('user');
+      if (savedUserData) {
+        const parsedUser = JSON.parse(savedUserData);
+        if (parsedUser.dashboardData) {
+          parsedUser.dashboardData.shoppingCart = updatedCart;
+          localStorage.setItem('user', JSON.stringify(parsedUser));
+          window.dispatchEvent(new Event('cartUpdated'));
+        }
+      }
+    }
+  };
+
+  const handleQuantityChange = (storeId, cartItemId, delta) => {
+    let updatedCart = { ...cartData };
+
+    const storeIndex = updatedCart.stores.findIndex(s => s.storeId === storeId);
+    if (storeIndex > -1) {
+      const productIndex = updatedCart.stores[storeIndex].products.findIndex(p => p.cartItemId === cartItemId);
+      if (productIndex > -1) {
+        let newQty = updatedCart.stores[storeIndex].products[productIndex].quantity + delta;
+        
+        if (newQty < 1) newQty = 1;
+        
+        updatedCart.stores[storeIndex].products[productIndex].quantity = newQty;
+
+        let totalQty = 0;
+        let totalOriginalPrice = 0;
+        let grandTotal = 0;
+
+        updatedCart.stores.forEach(store => {
+          store.products.forEach(item => {
+            if (item.isSelected) {
+              totalQty += item.quantity;
+              totalOriginalPrice += (item.originalPrice * item.quantity);
+              grandTotal += (item.finalPrice * item.quantity);
+            }
+          });
+        });
+
+        updatedCart.summary = {
+          totalSelectedQuantity: totalQty,
+          totalItemsOriginalPrice: totalOriginalPrice,
+          totalDiscount: totalOriginalPrice - grandTotal,
+          grandTotal: grandTotal
+        };
+
+        setCartData(updatedCart);
+
+        const savedUserData = localStorage.getItem('user');
+        if (savedUserData) {
+          const parsedUser = JSON.parse(savedUserData);
+          if (parsedUser.dashboardData) {
+            parsedUser.dashboardData.shoppingCart = updatedCart;
+            localStorage.setItem('user', JSON.stringify(parsedUser));
+            window.dispatchEvent(new Event('cartUpdated'));
+          }
+        }
+      }
+    }
+  };
+
+  if (!cartData || !cartData.stores || cartData.stores.length === 0) {
+    return (
+      <div className='cart-container' style={{ paddingTop: '150px', textAlign: 'center' }}>
+        <h2>Keranjang Belanja Kosong</h2>
+        <p>Produk yang Anda tambahkan akan muncul di sini.</p>
+      </div>
+    );
+  }
+
+  const { selectedAddress, stores, summary } = cartData;
 
   return (
-    <div className='cart-container'>
+    <div className='cart-container' style={{ paddingTop: data ? '0' : '100px' }}>
       <h2 className='cart-page-title'>Troli Belanja</h2>
 
       <div className='cart-layout'>
-        {/* BAGIAN KIRI - DAFTAR PRODUK */}
         <div className='cart-main-content'>
-          
-          {/* Section Alamat Pengiriman (Baru) */}
           <div className='cart-section address-section'>
             <div className='address-header'>
               <MapPin size={20} className='icon-orange' />
               <strong>Alamat Pengiriman</strong>
             </div>
             <div className='address-body'>
-              <p><strong>Ryandar Anugrah Fajar</strong> (+62) 812-3456-7890</p>
-              <p>Jl. Ketintang Baru No. 123, Gayungan, Kota Surabaya, Jawa Timur 60231</p>
+              <p><strong>{selectedAddress?.recipientName}</strong> {selectedAddress?.phone}</p>
+              <p>{selectedAddress?.fullAddress}</p>
             </div>
             <button className='btn-ubah-alamat'>Ubah Alamat</button>
           </div>
 
-          {/* Section Pilih Semua */}
-          <div className='cart-section select-all-bar'>
-            <div className='checkbox-group'>
-              <input type='checkbox' id='selectAll' defaultChecked />
-              <label htmlFor='selectAll'>Pilih Semua Produk</label>
-            </div>
-            <button className='btn-hapus-text'>Hapus Dari Keranjang</button>
-          </div>
-
-          {/* List Produk */}
-          {cartItems.map((item) => (
-            <div key={item.id} className='cart-section cart-item-card'>
-              
-              {/* Header Toko */}
+          {stores.map((store) => (
+            <div key={store.storeId} className='cart-section cart-item-card'>
               <div className='item-store-header'>
-                <input type='checkbox' defaultChecked />
+                <input type='checkbox' defaultChecked={store.isSelected} />
                 <Store size={18} />
-                <strong>{item.toko}</strong>
+                <strong>{store.storeName}</strong>
               </div>
 
-              {/* Detail Produk */}
-              <div className='item-product-detail'>
-                <input type='checkbox' className='item-checkbox' defaultChecked />
-                <img src={item.gambar} alt={item.nama} className='item-image' />
-                
-                <div className='item-info'>
-                  <h3>{item.nama}</h3>
-                  
-                  <div className='item-price-row'>
-                    <span className='price-final'>Rp{item.harga.toLocaleString('id-ID')}</span>
-                    {item.diskon && (
-                      <>
-                        <span className='price-discount-badge'>{item.diskon}</span>
-                        <span className='price-original'>Rp{item.hargaCoret.toLocaleString('id-ID')}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div className='item-shipping-info'>
-                  <div className='shipping-badge'>
-                    <Truck size={14} />
-                    {item.pengiriman}
-                  </div>
-                </div>
-              </div>
-
-              {/* Informasi Pesanan & Aksi */}
-              <div className='item-order-info'>
-                <strong>Informasi Pesanan</strong>
-                
-                <div className='item-action-row'>
-                  <div className='note-input-container'>
-                    <input 
-                      type='text' 
-                      placeholder='Catatan untuk Penjual (Optional)' 
-                      className='note-input'
-                    />
-                  </div>
-
-                  <div className='action-controls'>
-                    <span className='stock-label'>Stok {item.stok}</span>
-                    <button className='icon-btn'><Heart size={20} /></button>
-                    <button className='icon-btn'><Trash2 size={20} /></button>
-                    
-                    <div className='qty-control'>
-                      <button className='qty-btn'><Minus size={16} /></button>
-                      <input type='text' value={item.qty} readOnly className='qty-input' />
-                      <button className='qty-btn'><Plus size={16} /></button>
+              {store.products.map((item) => (
+                <React.Fragment key={item.cartItemId}>
+                  <div className='item-product-detail'>
+                    <input type='checkbox' className='item-checkbox' defaultChecked={item.isSelected} />
+                    <img src={item.imageUrl} alt={item.productName} className='item-image' />
+                    <div className='item-info'>
+                      <h3>{item.productName}</h3>
+                      <div className='item-price-row'>
+                        <span className='price-final'>{formatRupiah(item.finalPrice)}</span>
+                      </div>
+                    </div>
+                    <div className='item-shipping-info'>
+                      <div className='shipping-badge'>
+                        <Truck size={14} />
+                        {item.selectedCourier}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
+                  <div className='item-order-info'>
+                    <div className='item-action-row'>
+                      <div className='note-input-container'>
+                        <input type='text' placeholder='Catatan...' className='note-input' defaultValue={item.notesToSeller} />
+                      </div>
+                      <div className='action-controls'>
+                        <button 
+                          className='icon-btn' 
+                          onClick={() => handleDelete(store.storeId, item.cartItemId)}
+                        >
+                          <Trash2 size={20} />
+                        </button>
+                        
+                        <div className='qty-control'>
+                          <button 
+                            className='qty-btn'
+                            onClick={() => handleQuantityChange(store.storeId, item.cartItemId, -1)}
+                          >
+                            <Minus size={16} />
+                          </button>
+                          <input type='text' value={item.quantity} readOnly className='qty-input' />
+                          <button 
+                            className='qty-btn'
+                            onClick={() => handleQuantityChange(store.storeId, item.cartItemId, 1)}
+                          >
+                            <Plus size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
           ))}
-
         </div>
 
-        {/* BAGIAN KANAN - RINGKASAN BELANJA (Sticky) */}
         <div className='cart-sidebar'>
           <div className='summary-card'>
             <h3>Ringkasan Belanja</h3>
-            
             <div className='summary-row'>
-              <span>Total Harga (3 Produk)</span>
-              <span>Rp70.000</span>
+              <span>Total Harga ({summary?.totalSelectedQuantity || 0} Produk)</span>
+              <span>{formatRupiah(summary?.totalItemsOriginalPrice || 0)}</span>
             </div>
-            <div className='summary-row'>
-              <span>Total Diskon Barang</span>
-              <span>-Rp11.000</span>
-            </div>
-            
-            <hr className='summary-divider' />
-            
             <div className='summary-row total'>
               <span>Total Pembelian</span>
-              <span className='total-price'>Rp59.000</span>
+              <span className='total-price'>{formatRupiah(summary?.grandTotal || 0)}</span>
             </div>
-            
-            <button className='btn-beli'>Beli (3)</button>
+            <button className='btn-beli'>Beli ({summary?.totalSelectedQuantity || 0})</button>
           </div>
         </div>
-
       </div>
     </div>
   );

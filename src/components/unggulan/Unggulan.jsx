@@ -1,12 +1,15 @@
+// File: src/components/unggulan/Unggulan.jsx
 import './unggulan.css';
 
 export default function Unggulan({}){
+    // 1. Perbarui data category dengan menambahkan path gambar yang absolut (pakai /)
     const category = [
-    { id: 1, name: "Pupuk Organik"},
-    { id: 2, name: "Bibit Jagung"},
-    { id: 3, name: "Pestisida Alami"},
-    { id: 4, name: "Pestisida Organik"},
+        { id: 1, name: "Pupuk", image: "/asset/images/kategori-pupuk.jpeg" },
+        { id: 2, name: "Bibit", image: "/asset/images/item/8.jpg" },
+        { id: 3, name: "Pestisida Alami", image: "/asset/images/item/9.jpg" },
+        { id: 4, name: "Pestisida Organik", image: "/asset/images/item/10.jpg" },
     ];
+
     return(
         <section className='cat-container'>
             <div className='cat-bar'>
@@ -14,14 +17,15 @@ export default function Unggulan({}){
                     <h4>Kategori Unggulan Minggu Ini</h4>
                 </div>
                 <div className='best-cat'>
-                    {category.map((category) => (
-                    <div key={category.id} className="cat-card">
-                    <div className='cat-gambar'> 
-                        <p></p>
+                    {category.map((cat) => (
+                    <div key={cat.id} className="cat-card">
+                        <div className='cat-gambar'> 
+                        {/* Gambar sekarang menggunakan class khusus untuk kontrol ukuran */}
+                        <img src={cat.image} alt={cat.name} className="cat-img-fluid" />
+                        </div>
+                        <h3>{cat.name}</h3>
                     </div>
-                    <h3>{category.name}</h3>
-                    </div>
-                ))}
+                    ))}
                 </div>
             </div>
         </section>

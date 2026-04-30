@@ -1,7 +1,13 @@
 import React from 'react';
 import './UserProfile.css';
 
-export default function UserProfile() {
+export default function UserProfile({ data }) {
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    const nameParts = name.trim().split(' ');
+    if (nameParts.length === 1) return nameParts[0].charAt(0).toUpperCase();
+    return (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
+  };
   return (
     <div className="pa-container">
       <div className="pa-header">
@@ -9,34 +15,52 @@ export default function UserProfile() {
         <p className="pa-subtitle">Kelola profil dan preferensi Anda</p>
       </div>
 
-      {/* SECTION: PROFIL SAYA */}
       <div className="pa-section">
         <h3 className="pa-section-title">Profil Saya</h3>
         
         <div className="pa-profile-content">
-          {/* Kiri: Foto Profil */}
           <div className="pa-profile-left">
             <div className="pa-avatar-wrapper">
-              {/* Ganti src dengan foto aslinya nanti */}
-              <img 
-                src='asset/images/KINGNANA.jpeg' 
-                alt="Profile" 
-                className="pa-avatar" 
-              />
+              {data?.profilePicture ? (
+                    <img 
+                        className="reg-icon" 
+                        src={data?.profilePicture} 
+                        style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover' }} 
+                        alt="Profile" 
+                    />
+                ) : (
+                    <div 
+                        className="reg-icon" 
+                        style={{
+                            width: '100px', // Diperbesar
+                            height: '100px', // Diperbesar
+                            borderRadius: '50%',
+                            backgroundColor: '#4CAF50', 
+                            color: '#ffffff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '60px', // Font diperbesar agar proporsional
+                            fontWeight: 'bold',
+                            flexShrink: 0
+                        }}
+                    >
+                        {getInitials(data?.fullName)}
+                    </div>
+                )}
               <div className="pa-edit-badge">
                 <span>✏️</span>
               </div>
             </div>
-            <p className="pa-profile-name-text">Bang Doel</p>
+            <p className="pa-profile-name-text">{data?.username || ''}</p>
             <a href="#ubahfoto" className="pa-change-photo-link">Ubah Foto</a>
           </div>
 
-          {/* Kanan: Form Profil */}
           <div className="pa-profile-right">
             <div className="pa-form-group">
               <label className="pa-label">Nama Lengkap</label>
               <div className="pa-input-row">
-                <input type="text" className="pa-input" defaultValue="Andi Pratama" />
+                <input type="text" className="pa-input" defaultValue={data?.fullName || ''} />
                 <button className="pa-btn-outline">Ubah</button>
               </div>
             </div>
@@ -47,7 +71,7 @@ export default function UserProfile() {
                 <input 
                   type="email" 
                   className="pa-input pa-input-disabled" 
-                  defaultValue="andi.pratama@email.com" 
+                  defaultValue={data?.email || ''} 
                   readOnly 
                 />
                 <button className="pa-btn-outline">Ubah</button>
@@ -57,7 +81,7 @@ export default function UserProfile() {
             <div className="pa-form-group">
               <label className="pa-label">No Telepon</label>
               <div className="pa-input-row">
-                <input type="text" className="pa-input" defaultValue="081333506505" />
+                <input type="text" className="pa-input" defaultValue={data?.phone || ''} />
                 <button className="pa-btn-outline">Ubah</button>
               </div>
             </div>
@@ -65,7 +89,7 @@ export default function UserProfile() {
             <div className="pa-form-group">
               <label className="pa-label">Alamat</label>
               <div className="pa-input-row">
-                <input type="text" className="pa-input" defaultValue="Jl Mulyorejo Surabaya Timur " />
+                <input type="text" className="pa-input" defaultValue={data?.mainAddress || ''} />
                 <button className="pa-btn-outline">Ubah</button>
               </div>
             </div>
@@ -73,12 +97,6 @@ export default function UserProfile() {
         </div>
       </div>
 
-      
-
-      {/* SECTION: NOTIFIKASI */}
-      
-
-      {/* TOMBOL SIMPAN */}
       <div className="pa-footer">
         <button className="pa-btn-primary">Simpan Perubahan</button>
       </div>

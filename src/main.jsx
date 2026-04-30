@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router"; // atau react-router-dom
+import { BrowserRouter } from "react-router-dom"; // <-- PENTING: Gunakan react-router-dom
 import App from "./app";
 import './index.css'
 import Router from "./router";
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Untuk fitur dropdown/modal
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const root = document.getElementById("root");
 

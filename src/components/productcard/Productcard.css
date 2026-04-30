@@ -1,7 +1,6 @@
 .product-display {
     background-color: rgb(255, 255, 255);
     padding: 3px;
-    /* Hapus max-width statis, ganti jadi 100% agar ikut kotak Grid */
     width: 100%; 
     box-sizing: border-box;
     /* Pertahankan tinggi minimal kamu */
@@ -22,6 +21,7 @@
 .product-display:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 
 .product-info {
     /* Tetap mempertahankan warna biru penandamu */

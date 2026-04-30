@@ -102,3 +102,70 @@
     font-size: 10px;
   }
 }
+
+/* File: src/components/unggulan/unggulan.css */
+
+/* ... kode CSS Anda sebelumnya (tetap sama) ... */
+
+.cat-gambar {
+  background-color: white;
+  /* HAPUS padding: 60px; yang lama */
+  border-radius: 20px;
+  /* TAMBAHKAN ini agar gambar muat sempurna */
+  width: 100%; 
+  aspect-ratio: 1/1; /* Membuat kotak putihnya selalu persegi otomatis */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Memastikan gambar tidak keluar dari radius */
+}
+
+.cat-gambar {
+  background-color: transparent;
+  border-radius: 20px;
+  
+  /* HAPUS padding: 60px; yang lama */
+  
+  /* TAMBAHKAN padding kecil agar gambar tidak menempel tembok */
+  padding: 0px; 
+  overflow: hidden;
+  
+  /* Membuat kontainer persegi yang responsif mengikuti lebar .cat-card */
+  width: 100%;
+  aspect-ratio: 1 / 1; 
+  
+  /* Memastikan gambar berada di tengah kotak putih */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Memastikan jika ada gambar yang bocor, akan terpotong radius */
+}
+
+/* TAMBAHKAN class CSS baru untuk tag <img> agar fit */
+.cat-img-fluid {
+  /* Mengikuti ukuran penuh kontainer induk (.cat-gambar) */
+  width: 100%;
+  height: 100%;
+  
+  /* object-fit: contain adalah kunci agar seluruh gambar muat tanpa gepeng
+     object-fit: cover akan memenuhi kotak tapi mungkin terpotong */
+  object-fit: cover; 
+}
+
+/* ... kode CSS Media Screen Anda sebelumnya ... */
+
+@media screen and (max-width: 768px) {
+  /* ... kode media query lainnya ... */
+
+  .cat-gambar {
+    /* HAPUS padding: 60px; di sini juga */
+    /* Beri padding lebih kecil di mobile agar gambar tetap besar */
+    padding: 0px;
+  }
+  
+  .cat-card {
+    /* Memastikan card tidak terlalu lebar di mobile */
+    width: 35vw;
+    max-width: 140px; 
+  }
+}

@@ -2,40 +2,16 @@ import React from 'react';
 import './ProductManager.css';
 import SellerProduct from './SellerProduct';
 
-const ProductManager = () => {
-  // Data sementara (dummy data) untuk keperluan tampilan antarmuka
-  const dummyProducts = [
-    { 
-      id: 1, 
-      name: 'Pupuk Organik Cap Bang Doel', 
-      category: 'Pupuk Organik', 
-      price: 71000, 
-      stock: 3, 
-      minOrder: 1, 
-      updateDate: '29 Juni 2025', 
-      updateTime: '21:22:05' 
-    },
-    { 
-      id: 2, 
-      name: 'Bibit Tomat ', 
-      category: 'Bibit Tanaman', 
-      price: 15000, 
-      stock: 50, 
-      minOrder: 5, 
-      updateDate: '15 Maret 2026', 
-      updateTime: '08:30:00' 
-    },
-    { 
-      id: 3, 
-      name: 'Pestisida Nabati', 
-      category: 'Obat Pertanian', 
-      price: 45000, 
-      stock: 12, 
-      minOrder: 2, 
-      updateDate: '20 Maret 2026', 
-      updateTime: '14:10:15' 
-    }
-  ];
+const ProductManager = ({ products = [] }) => {
+  // Karena struktur dummyProducts sebelumnya belum memiliki data stok dan waktu update,
+  // kita tambahkan nilai default (fallback) sementara agar komponen SellerProduct tetap berjalan normal.
+  const enrichedProducts = products.map((product) => ({
+    ...product,
+    stock: product.stock || Math.floor(Math.random() * 50) + 5, // Angka acak 5-54 untuk stok dummy
+    minOrder: product.minOrder || 1,
+    updateDate: product.updateDate || '24 Okt 2026',
+    updateTime: product.updateTime || '14:30:00'
+  }));
 
   return (
     <div className="pm-container">
@@ -59,9 +35,15 @@ const ProductManager = () => {
 
         {/* Product List Container */}
         <div className="pm-product-list">
-          {dummyProducts.map((product) => (
-            <SellerProduct key={product.id} data={product} />
-          ))}
+          {enrichedProducts.length > 0 ? (
+            enrichedProducts.map((product) => (
+              <SellerProduct key={product.id} data={product} />
+            ))
+          ) : (
+            <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+              Belum ada produk yang ditambahkan.
+            </div>
+          )}
         </div>
       </div>
     </div>

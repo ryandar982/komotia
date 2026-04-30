@@ -2,16 +2,18 @@
 import React from 'react'
 import './Explore.css';
 import Card from '../productcard/Productcard'
-import { dummyProducts } from '../../data/dummyProducts'; // Sesuaikan path-nya
+import { dummyProducts } from '../../data/dummyProducts';
+import { Link } from "react-router-dom"; // 1. Import Link
 
 export default function Explore() {
   return (
     <section className='container explore-container my-5'> 
         
-        {/* Header (Tetap sama) */}
+        {/* Header */}
         <div className='row align-items-center mb-4 explore-head'>
             <div className='col-auto'>
-                <img src='asset/images/explore-icon.png' width='70' alt="Explore Icon"/>
+                {/* 2. Tambahkan / agar path gambar absolut */}
+                <img src='/asset/images/explore-icon.png' width='70' alt="Explore Icon"/>
             </div>
             <div className='col'>
                 <h2 className='mb-0'>Explore produk</h2>
@@ -19,18 +21,23 @@ export default function Explore() {
             </div>
         </div>
 
-        {/* Categories (Tetap sama) */}
+        {/* Categories */}
         <div className='categories-pick d-flex gap-3 mb-4'>
             {/* ... kode button kategori Anda ... */}
         </div>
 
-        {/* Grid Produk: Gunakan .map() untuk me-render data dummy */}
+        {/* Grid Produk */}
         <div className='row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 explore-product'>
             {dummyProducts.map((item) => (
-                // Pastikan selalu memberikan 'key' yang unik saat menggunakan map()
                 <div className='col' key={item.id}>
-                    {/* Lempar data item ke dalam props 'product' */}
-                    <Card product={item} />
+                    {/* 3. Bungkus Card dengan Link ke /product/id */}
+                    <Link 
+                        to={`/product/${item.id}`} 
+                        className="product-link" 
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                        <Card product={item} />
+                    </Link>
                 </div>
             ))}
         </div>

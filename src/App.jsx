@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import './App.css'; // Opsional: kamu bisa menghapus isinya atau biarkan untuk styling global
+
+// Import komponen yang sudah kita buat (Sesuaikan path/lokasi foldernya dengan struktur proyekmu)
+import CategoryBar from './components/navbar/categoryBar'; // Contoh path
+import SellerLogin from './components/sellerLogin/SellerLogin'; // Contoh path
+import SellerMain from './components/sellerDashboard/SellerMain'; // Contoh path
+
+// Membuat komponen Home sederhana sebagai tempat CategoryBar
+const Home = () => {
+  return (
+    <div>
+      <CategoryBar />
+      <div style={{ padding: '40px', textAlign: 'center' }}>
+        <h1>Selamat Datang di Toko Pertanian</h1>
+        <p>Pilih kategori di atas atau masuk ke Seller Center.</p>
+      </div>
+    </div>
+  );
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        {/* Rute Halaman Utama (Pembeli) */}
+        <Route path="/" element={<Home />} />
+
+        {/* Rute Halaman Login Penjual */}
+        <Route path="/seller/login" element={<SellerLogin />} />
+
+        {/* Rute Halaman Dashboard Penjual */}
+        <Route path="/seller/dashboard" element={<SellerMain />} />
+
+        {/* Catch-all route: Jika user mengetik URL yang salah, kembalikan ke Home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

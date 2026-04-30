@@ -23,11 +23,16 @@ export default function Loginform() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const user = dummyUsers.find(
+    // 1. Ambil database user dari localStorage (atau dummyUsers jika belum ada yang mendaftar)
+    const existingUsers = JSON.parse(localStorage.getItem('users_db')) || dummyUsers;
+
+    // 2. Cari kecocokan username dan password di dalam existingUsers
+    const user = existingUsers.find(
       (u) => u.username === form.username && u.password === form.password
     );
 
     if (user) {
+      // 3. Simpan sesi login
       localStorage.setItem('user', JSON.stringify(user));
       navigate('/');
       window.location.reload();

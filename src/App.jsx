@@ -28,10 +28,10 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* Rute Halaman Login Penjual */}
-        <Route path="/seller/login" element={<SellerLogin />} />
+        <Route path="/seller-login" element={<SellerLogin />} />
 
         {/* Rute Halaman Dashboard Penjual */}
-        <Route path="/seller/dashboard" element={<SellerMain />} />
+        <Route path="/seller-dashboard" element={<SellerMain />} />
 
         {/* Catch-all route: Jika user mengetik URL yang salah, kembalikan ke Home */}
         <Route path="*" element={<Navigate to="/" replace />} />

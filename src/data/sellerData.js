@@ -1,7 +1,7 @@
 export const sellerData = {
   profile: {
     id: "store_001",
-    storeName: "Nama Toko MU",
+    storeName: "Toko Bang Deel",
     ownerName: "Bang Doel",
     email: "bangdoelshop@gmail.com",
     password: "user123",

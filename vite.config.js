@@ -1,12 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig(({ command }) => ({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-  // Jika sedang build (deploy), pakai /komotia/. Jika lokal, pakai /
-  base: command === 'build' ? '/komotia/' : '/', 
-}))
+// https://vitejs.dev/config/
+export default defineConfig(({ command }) => {
+  return {
+    plugins: [
+      react(),
+      tailwindcss(),
+    ],
+    base: command === 'build' ? '/komotia/' : '/',
+  };
+});

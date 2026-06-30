@@ -337,6 +337,80 @@
     background-color: rgba(75, 83, 32);
 }
 
+/* ==============================
+   Empty Cart State
+   ============================== */
+.cart-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 30px 80px;
+    background: linear-gradient(145deg, #ffffff, #f8faf5);
+    border-radius: 16px;
+    border: 1px dashed #c8d6b8;
+    max-width: 520px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(79, 100, 54, 0.06);
+}
+
+.cart-empty-icon-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+    animation: cartEmptyFloat 3s ease-in-out infinite;
+}
+
+.cart-empty-icon {
+    width: 180px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 16px rgba(79, 100, 54, 0.15));
+}
+
+@keyframes cartEmptyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.cart-empty-title {
+    margin: 0 0 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+}
+
+.cart-empty-desc {
+    margin: 0 0 28px;
+    font-size: 15px;
+    color: #888;
+    line-height: 1.6;
+    max-width: 360px;
+}
+
+.cart-empty-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 32px;
+    background: linear-gradient(135deg, #5a7a3a, #4f6436);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(79, 100, 54, 0.3);
+}
+
+.cart-empty-btn:hover {
+    background: linear-gradient(135deg, #4f6436, #3d5028);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 100, 54, 0.35);
+}
+
 /* Responsif untuk layar kecil */
 @media (max-width: 1024px) {
     .cart-layout {
@@ -353,5 +427,15 @@
     }
     .note-input-container {
         max-width: 100%;
+    }
+    .cart-empty-state {
+        margin: 0 10px;
+        padding: 40px 20px 60px;
+    }
+    .cart-empty-icon {
+        width: 140px;
+    }
+    .cart-empty-title {
+        font-size: 19px;
     }
 }

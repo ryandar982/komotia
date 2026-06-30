@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './authreg.css';
 import React, { useState } from "react";
 import { loginWithGoogle } from "../../firebase/auth.js";
-import { dummyUsers } from '../../data/dummyUsers';
+import { supabase } from '../../config/supabaseClient';
 
 export default function Registerform() {
   const [form, setForm] = useState({
@@ -22,7 +22,7 @@ export default function Registerform() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error setiap kali submit
 
@@ -32,36 +32,59 @@ export default function Registerform() {
       return;
     }
 
-    // 2. Ambil database user dari localStorage, jika kosong gunakan dummyUsers bawaan
-    const existingUsers = JSON.parse(localStorage.getItem('users_db')) || dummyUsers;
+    try {
+      // 2. Cek apakah username sudah dipakai
+      const { data: existingUser, error: checkError } = await supabase
+        .from('users')
+        .select('id_user')
+        .eq('username', form.username)
+        .maybeSingle();
 
-    // 3. Cek apakah username sudah dipakai
-    const userExists = existingUsers.find((u) => u.username === form.username);
-    if (userExists) {
-      setError("Username sudah digunakan, silakan pilih yang lain!");
-      return;
+      if (checkError) {
+        throw checkError;
+      }
+
+      if (existingUser) {
+        setError("Username sudah digunakan, silakan pilih yang lain!");
+        return;
+      }
+
+      // 3. Buat objek user baru dan insert ke Supabase
+      const { data: newUser, error: insertError } = await supabase
+        .from('users')
+        .insert([
+          {
+            email: form.email,
+            username: form.username,
+            password: form.password, // TODO: Hash password di production
+            nama: form.username, // Gunakan username sebagai nama default
+            role: 'pembeli',
+            no_telp: '-', // Default value untuk menghindari error NOT NULL
+            alamat: '-'  // Default value untuk menghindari error NOT NULL
+          }
+        ])
+        .select()
+        .single();
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      // 4. Simpan sesi user ke localStorage agar langsung login
+      localStorage.setItem('user', JSON.stringify({
+        id_user: newUser.id_user,
+        username: newUser.username,
+        nama: newUser.nama,
+        role: newUser.role
+      }));
+
+      // 5. Pindah ke halaman utama
+      navigate('/');
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      setError(`Terjadi kesalahan sistem saat mendaftar: ${err.message || 'Unknown error'}`);
     }
-
-    // 4. Buat objek user baru
-    const newUser = {
-      id: existingUsers.length + 1, // ID urut
-      email: form.email,
-      username: form.username,
-      password: form.password
-    };
-
-    // 5. Tambahkan user baru ke array database
-    existingUsers.push(newUser);
-
-    // 6. SIMPAN array yang sudah diupdate ke localStorage (sebagai Database)
-    localStorage.setItem('users_db', JSON.stringify(existingUsers));
-
-    // 7. Simpan sesi user ke localStorage agar langsung login (Sesi Aktif)
-    localStorage.setItem('user', JSON.stringify(newUser));
-
-    // 8. Pindah ke halaman utama
-    navigate('/');
-    window.location.reload();
   };
 
   return (

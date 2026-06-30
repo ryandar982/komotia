@@ -69,7 +69,12 @@ export default function Navbar({ search, setSearch }) {
             </Link>
             
             <section className="">
-                <section className="search-section">
+                <form className="search-section" onSubmit={(e) => {
+                    e.preventDefault();
+                    if (search.trim()) {
+                        navigate(`/search?q=${encodeURIComponent(search.trim())}`);
+                    }
+                }}>
                     <img src='/asset/images/search-icon.png' alt="search" className="search-icon" height='17'/>
                     <input
                       type="text"
@@ -78,7 +83,7 @@ export default function Navbar({ search, setSearch }) {
                       onChange={(e) => setSearch(e.target.value)}
                       className="search-input"
                     />
-                </section>
+                </form>
             </section>
             
             <Link to='/cart'>

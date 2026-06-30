@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import './UserReview.css';
 
-export default function UserReview({ data }) {
+export default function UserReview({ waitingList = [], historyList = [] }) {
   const [activeTab, setActiveTab] = useState('menunggu');
-
-  const waitingList = data?.waitingForReview || [];
-  const historyList = data?.reviewHistory || [];
 
   return (
     <div className="ur-container">

@@ -1,189 +1,306 @@
 /* Container & Global */
 .uoh-container {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f4f5f7;
-  min-height: 100vh;
-  padding: 24px;
-  color: #333;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: transparent;
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 /* Header */
 .uoh-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
 .uoh-title {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.uoh-subtitle {
+  font-size: 15px;
+  color: #6b7280;
   margin: 0;
 }
 
-.uoh-download-btn {
-  background-color: #fff;
-  border: 1px solid #d1d5db;
-  padding: 8px 16px;
-  border-radius: 6px;
+/* Tabs Section */
+.uoh-tabs-container {
+  background: white;
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  margin-bottom: 8px;
+}
+
+.uoh-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+.uoh-tabs::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.uoh-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 24px;
   font-size: 14px;
   font-weight: 600;
+  color: #6b7280;
+  border-radius: 12px;
   cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.uoh-tab-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.uoh-tab-btn.active {
+  background: #4b5320; /* Komotia Green */
+  color: white;
+  box-shadow: 0 4px 12px rgba(75, 83, 32, 0.25);
+}
+
+/* List Container */
+.uoh-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Order Card */
+.uoh-order-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.uoh-order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header */
+.uoh-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: #fafafa;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.uoh-order-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.uoh-order-id {
+  font-weight: 700;
+  color: #111827;
+  font-size: 15px;
+}
+
+.uoh-order-date {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Badges */
+.uoh-status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status-success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.status-warning {
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid #fef08a;
+}
+
+.status-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.status-default {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+
+/* Card Body */
+.uoh-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.uoh-item-row {
+  display: flex;
+  gap: 20px;
+}
+
+.uoh-item-image-wrapper {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f9fafb;
+  flex-shrink: 0;
+  border: 1px solid #f3f4f6;
+}
+
+.uoh-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.uoh-item-image-wrapper:hover .uoh-item-image {
+  transform: scale(1.1);
+}
+
+.uoh-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.uoh-item-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 6px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.uoh-item-store {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.store-icon {
+  font-size: 14px;
+}
+
+.uoh-item-price-qty {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #333;
-  transition: background-color 0.2s;
 }
 
-.uoh-download-btn:hover {
-  background-color: #f9fafb;
-}
-
-/* Cards */
-.uoh-top-card, .uoh-bottom-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  margin-bottom: 16px;
-}
-
-.uoh-top-card {
-  padding: 0 24px 24px 24px;
-}
-
-/* Tabs */
-.uoh-tabs {
-  display: flex;
-  border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 20px;
-  justify-content: space-between;
-}
-
-.uoh-tab {
-  padding: 16px 24px;
+.uoh-item-qty {
   font-size: 14px;
-  color: #4b5563;
-  cursor: pointer;
+  color: #6b7280;
   font-weight: 500;
-  border-bottom: 2px solid transparent;
 }
 
-.uoh-tab.active {
-  color: rgba(75, 83, 32);
-  border-bottom-color: rgba(75, 83, 32);
+.uoh-item-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #4b5320; /* Komotia Green */
 }
 
-/* Controls (Search & Filters) */
-.uoh-controls {
+/* Card Footer */
+.uoh-card-footer {
+  padding: 16px 24px;
+  background: #fafafa;
+  border-top: 1px solid #f3f4f6;
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.uoh-search-group {
+.uoh-payment-method {
+  font-size: 13px;
+  color: #6b7280;
+  background: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.uoh-footer-right {
   display: flex;
-  flex: 1;
-  min-width: 300px;
+  align-items: baseline;
   gap: 8px;
 }
 
-.uoh-select {
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.uoh-total-label {
   font-size: 14px;
-  color: #374151;
-  background-color: #fff;
-  outline: none;
-  cursor: pointer;
-}
-
-.uoh-select-small {
-  width: 160px;
-}
-
-.uoh-select-medium {
-  width: 200px;
-}
-
-.uoh-input-wrapper {
-  position: relative;
-  flex: 1;
-}
-
-.uoh-search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
-  font-size: 14px;
-}
-
-.uoh-search-input {
-  width: 100%;
-  padding: 8px 12px 8px 36px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  box-sizing: border-box;
-  outline: none;
-}
-
-.uoh-search-input:focus {
-  border-color: rgba(75, 83, 32);
-}
-
-/* Tags / Pills */
-.uoh-tags {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.uoh-tag {
-  background-color: #fff;
-  border: 1px solid #d1d5db;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
   color: #4b5563;
-  cursor: pointer;
-  transition: all 0.2s;
 }
 
-.uoh-tag.active {
-  border-color: rgba(75, 83, 32);
-  color: rgba(75, 83, 32);
-  background-color: #eff6ff;
-}
-
-.uoh-tag:hover:not(.active) {
-  background-color: #f9fafb;
+.uoh-total-amount {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
 }
 
 /* Empty State */
-.uoh-bottom-card {
-  padding: 60px 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-}
-
 .uoh-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 16px;
+  padding: 60px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   text-align: center;
 }
 
-.uoh-empty-image {
-  max-width: 250px;
-  margin-bottom: 24px;
+.uoh-empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+}
+
+.uoh-empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px 0;
 }
 
 .uoh-empty-text {
+  font-size: 15px;
   color: #6b7280;
-  font-size: 14px;
   margin: 0;
+  max-width: 300px;
 }

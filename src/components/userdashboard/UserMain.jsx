@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './UserMain.css';
 import UserProfile from './UserProfile';
 import UserDashMain from './UserDashMain';
 import UserOrderHistory from './UserOrderHistory';
 import UserWaiting from './UserWaitingPayment';
 import UserReview from './UserReview';
-import { LayoutDashboard, UserRound, PackageOpen, History, ClipboardClock, ShoppingBag, CircleStar } from 'lucide-react';
+import { LayoutDashboard, UserRound, PackageOpen, History, ClipboardClock, ShoppingBag, CircleStar, LogOut } from 'lucide-react';
 import CartComp from '../cartcomponent/CartMain';
-import { dummyUsers } from "../../data/dummyUsers";
+
+// Import hooks baru
+import { useUserData } from '../../hooks/useUserData';
+import { useUserOrders } from '../../hooks/useUserOrders';
+import { useUserReviews } from '../../hooks/useUserReviews';
 
 export default function UserMain() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [isPesananOpen, setIsPesananOpen] = useState(false);
   const [activeUserMenu, setActiveUserMenu] = useState('Dashboard');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedUserData = localStorage.getItem('user');
+    if (savedUserData) {
+      const parsedUser = JSON.parse(savedUserData);
+      if (parsedUser.id_user) {
+        setUserId(parsedUser.id_user);
+      } else {
+        navigate('/login');
+      }
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  // Fetch data from Supabase via hooks
+  const { userData, loading: userLoading } = useUserData(userId);
+  const { orders, loading: ordersLoading } = useUserOrders(userId);
+  const { waitingList, historyList, loading: reviewsLoading } = useUserReviews(userId);
 
   const getInitials = (name) => {
     if (!name) return 'U';
@@ -20,24 +45,6 @@ export default function UserMain() {
     if (nameParts.length === 1) return nameParts[0].charAt(0).toUpperCase();
     return (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
   };
-
-  useEffect(() => {
-    const savedUserData = localStorage.getItem('user');
-    
-    if (savedUserData) {
-      const parsedUser = JSON.parse(savedUserData);
-      const foundUser = dummyUsers.find(user => user.username === parsedUser.username);
-      
-      if (foundUser && foundUser.dashboardData) {
-        setCurrentUser(foundUser.dashboardData);
-      }
-    } else {
-      const defaultUser = dummyUsers.find(user => user.username === 'ryandar');
-      if (defaultUser && defaultUser.dashboardData) {
-        setCurrentUser(defaultUser.dashboardData);
-      }
-    }
-  }, []);
 
   const togglePesanan = () => {
     setIsPesananOpen(!isPesananOpen);
@@ -48,17 +55,25 @@ export default function UserMain() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    window.location.href = '/login';
+    const confirmLogout = window.confirm("Apakah Anda yakin ingin keluar?");
+    if (confirmLogout) {
+      localStorage.removeItem('user');
+      navigate('/login');
+    }
   };
 
   const isPesananSectionActive = activeUserMenu === 'Menunggu Pembayaran' || activeUserMenu === 'Riwayat Transaksi';
 
-  if (!currentUser) {
-    return <div style={{ padding: '40px' }}>Memuat data...</div>;
+  if (userLoading) {
+    return <div style={{ padding: '40px', textAlign: 'center' }}>Memuat data pengguna...</div>;
   }
 
-  const { userProfile } = currentUser;
+  if (!userData) {
+    return <div style={{ padding: '40px', textAlign: 'center' }}>Gagal memuat data pengguna.</div>;
+  }
+
+  // Pisahkan pesanan pending (menunggu pembayaran)
+  const waitingOrders = orders.filter(order => order.status === 'pending');
 
   return (
     <div className='container-dashboard'>
@@ -66,10 +81,10 @@ export default function UserMain() {
         
         <div className='dashboard-side-bar'>
           <section>
-            {userProfile.profilePicture ? (
+            {userData.avatar_url ? (
                     <img 
                         className="reg-icon" 
-                        src={userProfile.profilePicture} 
+                        src={userData.avatar_url} 
                         style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }} 
                         alt="Profile" 
                     />
@@ -77,25 +92,25 @@ export default function UserMain() {
                     <div 
                         className="reg-icon" 
                         style={{
-                            width: '50px', // Diperbesar
-                            height: '50px', // Diperbesar
+                            width: '50px',
+                            height: '50px',
                             borderRadius: '50%',
                             backgroundColor: '#4CAF50', 
                             color: '#ffffff',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '14px', // Font diperbesar agar proporsional
+                            fontSize: '14px',
                             fontWeight: 'bold',
                             flexShrink: 0
                         }}
                     >
-                        {getInitials(userProfile.fullName)}
+                        {getInitials(userData.nama || userData.username)}
                     </div>
                 )}
             <div className='dashboard-info user'>
-              <h2>{userProfile.fullName}</h2>
-              <button className='status-user'>{userProfile.membership}</button>
+              <h2>{userData.nama || userData.username}</h2>
+              <button className='status-user'>{userData.membership}</button>
             </div>
           </section>
           
@@ -153,19 +168,25 @@ export default function UserMain() {
               <CircleStar /> Ulasan Saya
             </div>
 
-            <div className="opsi-user" onClick={handleLogout} style={{ marginTop: '20px', color: 'red' }}>
-              Keluar Akun
+            <div className="opsi-user btn-logout" onClick={handleLogout} style={{ marginTop: 'auto', color: 'red' }}>
+              <LogOut/> Keluar Akun
             </div>
           </div>
         </div>
 
         <div className='content-user' style={{ flex: 1, padding: '40px' }}>
-          {activeUserMenu === 'Dashboard' && <UserDashMain data={currentUser.dashboardSummary} walletBalance={userProfile.walletBalance} /> }
-          {activeUserMenu === 'Profile Saya' && <UserProfile data={userProfile} />}
-          {activeUserMenu === 'Menunggu Pembayaran' && <UserWaiting data={currentUser.waitingForPaymentList} />}
-          {activeUserMenu === 'Riwayat Transaksi' && <UserOrderHistory data={currentUser.orderHistory} />}
-          {activeUserMenu === 'Wishlist' && <CartComp data={currentUser.shoppingCart} />}
-          {activeUserMenu === 'Ulasan Saya' && <UserReview data={currentUser.reviews} />}
+          {activeUserMenu === 'Dashboard' && <UserDashMain data={userData} walletBalance={userData.saldo_wallet} /> }
+          {activeUserMenu === 'Profile Saya' && <UserProfile data={userData} />}
+          {activeUserMenu === 'Menunggu Pembayaran' && (
+            ordersLoading ? <p>Memuat pesanan...</p> : <UserWaiting data={waitingOrders} />
+          )}
+          {activeUserMenu === 'Riwayat Transaksi' && (
+             ordersLoading ? <p>Memuat pesanan...</p> : <UserOrderHistory data={orders} />
+          )}
+          {activeUserMenu === 'Wishlist' && <CartComp data={[]} />}
+          {activeUserMenu === 'Ulasan Saya' && (
+             reviewsLoading ? <p>Memuat ulasan...</p> : <UserReview waitingList={waitingList} historyList={historyList} />
+          )}
         </div>
 
       </div>

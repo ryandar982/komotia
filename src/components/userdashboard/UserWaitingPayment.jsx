@@ -16,10 +16,11 @@ export default function UserWaitingPayment({ data }) {
     }).format(number);
   };
 
-  const handleCancel = (id, invoiceNumber) => {
-    const isConfirmed = window.confirm(`Apakah Anda yakin ingin membatalkan pesanan dengan No. Tagihan: ${invoiceNumber}?`);
+  const handleCancel = (id) => {
+    const isConfirmed = window.confirm(`Apakah Anda yakin ingin membatalkan pesanan dengan No. Tagihan: TRX-${id}?`);
     
     if (isConfirmed) {
+      // IDEALLY: Update status to 'dibatalkan' in Supabase here.
       const updatedPayments = payments.filter((item) => item.id !== id);
       setPayments(updatedPayments);
       alert('Pesanan berhasil dibatalkan.');
@@ -37,7 +38,7 @@ export default function UserWaitingPayment({ data }) {
           payments.map((item) => (
             <div className="uwp-card" key={item.id}>
               <div className="uwp-card-header">
-                <span className="uwp-order-id">No. Tagihan: {item.invoiceNumber}</span>
+                <span className="uwp-order-id">No. Tagihan: TRX-{item.id}</span>
                 <span className="uwp-status-badge">{item.status}</span>
               </div>
               
@@ -47,15 +48,15 @@ export default function UserWaitingPayment({ data }) {
                   <p className="uwp-price">{formatRupiah(item.totalAmount)}</p>
                 </div>
                 <div className="uwp-timer-section">
-                  <p className="uwp-label">Bayar Sebelum</p>
-                  <p className="uwp-timer">{item.dueDate}</p>
+                  <p className="uwp-label">Tanggal Pesanan</p>
+                  <p className="uwp-timer">{new Date(item.date).toLocaleDateString('id-ID')}</p>
                 </div>
               </div>
 
               <div className="uwp-card-footer">
                 <button 
                   className="uwp-btn-secondary"
-                  onClick={() => handleCancel(item.id, item.invoiceNumber)}
+                  onClick={() => handleCancel(item.id)}
                 >
                   Batalkan Pesanan
                 </button>

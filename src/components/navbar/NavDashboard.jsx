@@ -1,41 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import './NavDashboard.css';
-import { Link, useNavigate } from 'react-router-dom'; // Pastikan dari react-router-dom
+import { Link, useNavigate } from 'react-router-dom';
 import Profilecard from "../profilecard/Profilecard";
+import { useSellerData } from '../../hooks/useSellerData';
 
-export default function SellerNav() {
+export default function NavDashboard({ type = 'user' }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  // Get seller data if type is seller
+  const sellerId = type === 'seller' ? localStorage.getItem('sellerId') : null;
+  const { seller } = useSellerData(sellerId);
+
   // Cek apakah ada user yang sedang login saat komponen dimuat
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user');
-    if (loggedInUser) {
-      setUser(JSON.parse(loggedInUser));
-    } else {
-      // (Opsional) Jika tidak ada user login, tendang balik ke halaman login/home
-      // navigate('/login'); 
+    if (type === 'user') {
+      const loggedInUser = localStorage.getItem('user');
+      if (loggedInUser) {
+        setUser(JSON.parse(loggedInUser));
+      }
     }
-  }, [navigate]);
+  }, [type]);
 
   // Fungsi untuk Keluar/Logout
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-    navigate('/');
-    window.location.reload(); // Refresh agar state benar-benar bersih
+    if (type === 'seller') {
+      localStorage.removeItem('sellerId');
+      navigate('/seller-login');
+    } else {
+      localStorage.removeItem('user');
+      navigate('/');
+    }
+    window.location.reload();
+  };
+
+  // Persiapkan data profil berdasarkan tipe
+  const profileData = type === 'seller' && seller ? {
+    username: seller.nama_toko,
+    avatar_url: seller.avatar_url,
+    link: '/seller-dashboard'
+  } : {
+    ...(user || {}),
+    link: '/user-dashboard'
   };
 
   return (
     <div className='seller-nav-container'>
         <div className='seller-nav-main'>
             <Link className='logo-container-dashboard' to='/'>
-                {/* Perbaikan path gambar dengan menambahkan garis miring di depan */}
                 <img className="logo" src='/asset/images/komotia.png' height="35" alt="Logo" />
             </Link>
             
-            {/* Teruskan data user dan fungsi logout ke Profilecard */}
-            <Profilecard user={user} onLogout={handleLogout} />
+            <Profilecard user={profileData} onLogout={handleLogout} />
         </div>
     </div>
   );

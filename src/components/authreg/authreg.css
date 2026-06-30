@@ -143,3 +143,70 @@
 form a{
     text-decoration: none;
 }
+
+/* ===== Login Mode Toggle ===== */
+.login-mode-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 18px;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 2px solid #4a5320;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 10px 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #4a5320 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin: 0 !important;
+}
+
+.mode-btn.active {
+    background: #4a5320 !important;
+    color: white !important;
+}
+
+.mode-btn:hover:not(.active) {
+    background: rgba(74, 83, 32, 0.1) !important;
+}
+
+/* ===== Password Wrapper ===== */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.password-wrapper input {
+    margin-bottom: 0 !important;
+    padding-right: 50px !important;
+}
+
+.toggle-pw-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none !important;
+    border: none !important;
+    padding: 4px !important;
+    width: auto !important;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.toggle-pw-btn:hover {
+    color: #4a5320;
+}

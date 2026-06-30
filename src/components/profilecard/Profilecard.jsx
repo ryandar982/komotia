@@ -13,10 +13,12 @@ const Avatar = ({ user, size = '36px' }) => {
     return (nameParts[0].charAt(0) + nameParts[1].charAt(0)).toUpperCase();
   };
 
-  if (user?.profilePicture) {
+  const avatarSrc = user?.profilePicture || user?.avatar_url;
+
+  if (avatarSrc) {
     return (
       <img 
-        src={user.profilePicture} 
+        src={avatarSrc} 
         style={{ 
           width: size, 
           height: size, 
@@ -65,7 +67,7 @@ function Profilecard({ user, onLogout }) {
             </div>
         </Link> */}
         
-        <Link to='/user-dashboard' style={{ textDecoration: 'none' }}>
+        <Link to={user?.link || '/user-dashboard'} style={{ textDecoration: 'none' }}>
             <div className="user-profile" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 
                 <Avatar user={user} size="36px" />

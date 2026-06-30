@@ -30,25 +30,25 @@ export default function UserDashMain({ data, walletBalance }) {
             Menunggu Pembayaran
             <div className='seller-icon-bar'>
                 <CreditCard className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
-                <h3>{data?.waitingForPayment || 0}</h3>
+                <h3>{data?.menunggu_bayar || 0}</h3>
             </div>
             </div>
             <div>Sedang Dikirim
                 <div className='seller-icon-bar'>
                 <Truck className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
-                <h3>{data?.shipping || 0}</h3>
+                <h3>{data?.sedang_dikirim || 0}</h3>
             </div>
             </div>
             <div>Dalam Proses Pembatalan
                 <div className='seller-icon-bar'>
                 <PackageX className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
-                <h3>{data?.cancelingProcess || 0}</h3>
+                <h3>{data?.dibatalkan || 0}</h3>
             </div>
             </div>
             <div>Selesai
                 <div className='seller-icon-bar'>
                 <PackageCheck className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
-                <h3>{data?.completed || 0}</h3>
+                <h3>{data?.selesai || 0}</h3>
             </div>
             </div>
         </section>
@@ -58,7 +58,7 @@ export default function UserDashMain({ data, walletBalance }) {
             <div>Transaksi Berjalan
                 <div className='seller-icon-bar second'>
                     <Banknote className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
-                    <h3>{formatRupiah(data?.activeTransactionValue || 0)}</h3>
+                    <h3>{formatRupiah(data?.nilai_transaksi_aktif || 0)}</h3>
                 </div>
             </div>
             <div className='seller-kanan'>Saldo Saya

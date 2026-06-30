@@ -4,11 +4,9 @@
     align-items: center;
     padding: 30px;
     gap: 30px;
-    
-    /* TAMBAHKAN INI */
-    max-width: 1300px; /* Batas lebar maksimal */
-    margin: 0 auto;    /* Memastikan container tetap di tengah saat layar lebih lebar dari 1300px */
-    width: 100%;       /* Agar tetap responsif di layar kecil */
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -20,7 +18,7 @@
     gap: 8px;
 }
 .kolektif-header-icon {
-    color: #4f6436; /* Warna ikon senada dengan tema UI kamu */
+    color: #4f6436;
     margin-bottom: 5px;
 }
 
@@ -42,11 +40,10 @@
     display: flex;
     flex-direction: row; 
     gap: 25px;
-    
-    /* PERBAIKAN DI SINI */
-    width: 100%; /* Gunakan 100% dari parent (container yang sudah dibatasi 1300px) */
-    max-width: 1200px; /* Opsional: jika ingin kartu sedikit lebih rapat dibanding header-nya */
+    width: 100%;
+    max-width: 1200px;
 }
+
 /* Desain Kartu Produk */
 .kolektif-card {
     background-color: #fff;
@@ -57,15 +54,38 @@
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    
-    /* Membuat kartu membagi lebar secara rata ke samping */
     flex: 1; 
-    min-width: 0; 
+    min-width: 0;
+    position: relative;
 }
 
 .kolektif-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Discount Badge */
+.kolektif-discount-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, #e53935, #c62828);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(229, 57, 53, 0.3);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
 .kolektif-img {
@@ -79,8 +99,8 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    flex: 1; /* Memastikan tinggi isi seimbang */
+    gap: 12px;
+    flex: 1;
     justify-content: space-between;
 }
 
@@ -107,7 +127,27 @@
 .price-kolektif {
     font-size: 20px;
     font-weight: 700;
-    color: #4f6436; /* Warna harga diskon disesuaikan dengan tema */
+    color: #4f6436;
+}
+
+/* Countdown Timer */
+.kolektif-countdown {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #f57f17;
+    font-weight: 500;
+}
+
+.kolektif-countdown.expired {
+    background: #fce4ec;
+    border-color: #ef9a9a;
+    color: #c62828;
 }
 
 /* Progress Bar */
@@ -115,7 +155,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: 5px;
 }
 
 .progress-text {
@@ -135,9 +174,41 @@
 
 .progress-bar-fill {
     height: 100%;
-    background-color: #4f6436; /* Warna bar disesuaikan dengan tema */
+    background: linear-gradient(90deg, #6b8f4a, #4f6436);
     border-radius: 4px;
-    transition: width 0.5s ease-in-out;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+}
+
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: progressShimmer 2.5s infinite;
+}
+
+@keyframes progressShimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Social Proof */
+.kolektif-social-proof {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #888;
+    padding: 4px 0;
+}
+
+.kolektif-social-proof svg {
+    color: #4f6436;
+    flex-shrink: 0;
 }
 
 /* Tombol Gabung */
@@ -147,7 +218,7 @@
     justify-content: center;
     gap: 8px;
     padding: 12px;
-    background-color: #f2f5ef; /* Hijau sangat muda */
+    background-color: #f2f5ef;
     color: #4f6436;
     border: 1px solid #d0dfc1;
     border-radius: 8px;
@@ -158,14 +229,63 @@
     margin-top: 5px;
 }
 
-.btn-gabung:hover {
+.btn-gabung:hover:not(:disabled) {
     background-color: #4f6436;
     color: white;
     border-color: #4f6436;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 100, 54, 0.25);
+}
+
+.btn-gabung:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-gabung.joined {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-color: #c8e6c9;
+    cursor: default;
+    font-weight: 600;
+}
+
+/* Loading State */
+.kolektif-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 20px;
+    color: #888;
+}
+
+.kolektif-loading-spinner {
+    animation: kolektifSpinnerRotate 1s linear infinite;
+    color: #4f6436;
+}
+
+@keyframes kolektifSpinnerRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.kolektif-loading p,
+.kolektif-error-state p,
+.kolektif-empty-state p {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+.kolektif-error-state,
+.kolektif-empty-state {
+    padding: 30px 20px;
+    text-align: center;
 }
 
 /* --- RESPONSIVE UNTUK LAYAR HP --- */
-/* Jika dibuka di HP, orientasinya otomatis turun ke bawah agar tidak kekecilan */
 @media (max-width: 768px) {
     .kolektif-content {
         flex-direction: column;

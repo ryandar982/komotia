@@ -1,21 +1,80 @@
 import './Productpage.css';
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { dummyProducts } from '../../data/dummyProducts';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../../config/supabaseClient';
+import CheckoutModal from '../checkout/CheckoutModal';
 
 export default function Productpage() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [quantity, setQuantity] = useState(1);
+    const [product, setProduct] = useState(null);
+    const [seller, setSeller] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [selectedImage, setSelectedImage] = useState(0);
+    const [showCheckout, setShowCheckout] = useState(false);
 
-    const product = dummyProducts.find((item) => item.id === parseInt(id));
+    useEffect(() => {
+        async function fetchProduct() {
+            try {
+                setLoading(true);
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('id_product', id)
+                    .single();
+
+                if (error) throw error;
+                setProduct(data);
+
+                // Fetch data seller berdasarkan id_seller produk
+                if (data && data.id_seller) {
+                    const { data: sellerData, error: sellerError } = await supabase
+                        .from('sellers')
+                        .select('id_seller, nama_toko, nama_pemilik, avatar_url, kota')
+                        .eq('id_seller', data.id_seller)
+                        .single();
+
+                    if (!sellerError && sellerData) {
+                        setSeller(sellerData);
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching product:', err);
+                setProduct(null);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        if (id) {
+            fetchProduct();
+        }
+    }, [id]);
 
     const handleDecrease = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
 
     const handleIncrease = () => {
-        setQuantity(quantity + 1);
+        if (product && quantity < product.stok) {
+            setQuantity(quantity + 1);
+        }
+    };
+
+    const handleBuyNow = () => {
+        const savedUserStr = localStorage.getItem('user');
+        if (!savedUserStr) {
+            alert("Silakan login terlebih dahulu untuk melakukan pembelian.");
+            navigate('/login');
+            return;
+        }
+        setShowCheckout(true);
+    };
+
+    const handleCheckoutSuccess = (transaction) => {
+        // Transaction saved to localStorage by CheckoutModal
+        console.log('Transaction successful:', transaction);
     };
 
     const handleAddToCart = () => {
@@ -39,27 +98,28 @@ export default function Productpage() {
 
         const cart = userData.dashboardData.shoppingCart;
         
-        const currentStoreName = product.seller || 'Mitra Tani Komotia';
+        const currentStoreName = seller?.nama_toko || product.asal_kota || 'Mitra Tani Komotia';
         const storeId = currentStoreName.toLowerCase().replace(/\s+/g, '-');
 
         let storeIndex = cart.stores.findIndex(s => s.storeId === storeId);
 
-        const nameParts = product.name.split(' | ');
-        const productName = nameParts[0];
+        const hargaFinal = product.harga || product.price || 0;
 
         const newItem = {
             cartItemId: "cart-" + Date.now(),
-            productId: product.id.toString(),
-            productName: productName,
-            imageUrl: product.image,
-            originalPrice: product.price,
+            productId: product.id_product.toString(),
+            productName: product.nama_product,
+            imageUrl: product.gambar_utama || '',
+            originalPrice: hargaFinal,
             discountPercentage: 0,
-            finalPrice: product.price,
-            selectedCourier: "Gratis Ongkir",
+            finalPrice: hargaFinal,
+            selectedCourier: product.is_gratis_ongkir ? "Gratis Ongkir" : "JNE Reguler",
             quantity: quantity,
-            stockAvailable: 99, 
+            stockAvailable: product.stok || 99, 
             notesToSeller: "",
-            isSelected: true
+            isSelected: true,
+            id_seller: product.id_seller || null,
+            category: product.category || ''
         };
 
         if (storeIndex >= 0) {
@@ -105,6 +165,16 @@ export default function Productpage() {
         alert("Produk berhasil ditambahkan ke keranjang!");
     };
 
+    // Loading state
+    if (loading) {
+        return (
+            <div style={{ textAlign: 'center', marginTop: '100px' }}>
+                <p className="text-muted">Memuat detail produk...</p>
+            </div>
+        );
+    }
+
+    // Product not found
     if (!product) {
         return (
             <div style={{ textAlign: 'center', marginTop: '100px' }}>
@@ -113,43 +183,85 @@ export default function Productpage() {
         );
     }
 
-    const nameParts = product.name.split(' | ');
-    const productName = nameParts[0];
+    // Kumpulkan gambar yang tersedia
+    const gambarList = [
+        product.gambar_utama,
+        product.gambar_2,
+        product.gambar_3
+    ].filter(Boolean); // Buang yang null/undefined/kosong
 
-    const hasReview = product.ratingText !== "Tidak ada ulasan";
+    // Fungsi default gambar jika tidak ada / gagal load
+    const defaultImg = '/asset/images/item/item1.jpg';
+
+    const hargaProduk = product.harga || product.price || 0;
+    const hasReview = product.rating && product.rating !== "0" && Number(product.rating) > 0;
+    const ratingText = hasReview 
+        ? `${product.rating} (${product.jumlah_ulasan || 0} ulasan)` 
+        : "Belum ada ulasan";
 
     return (
         <div className="product-container">
             <div className="product-main">
                 
                 <div className="image-gallery">
+                    {/* Gambar utama */}
                     <div className="main-image-placeholder" style={{ padding: 0, overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <img 
-                            src={product.image.startsWith('http') ? product.image : `${product.image}`} 
-                            alt={productName} 
+                            src={gambarList[selectedImage] || gambarList[0] || defaultImg} 
+                            alt={product.nama_product} 
                             style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} 
+                            onError={(e) => { e.target.onerror = null; e.target.src = defaultImg; }}
                         />
                     </div>
+                    {/* Thumbnail gambar jika ada lebih dari 1 */}
+                    {gambarList.length > 1 && (
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                            {gambarList.map((img, idx) => (
+                                <img 
+                                    key={idx}
+                                    src={img}
+                                    alt={`Gambar ${idx + 1}`}
+                                    onClick={() => setSelectedImage(idx)}
+                                    onError={(e) => { e.target.onerror = null; e.target.src = defaultImg; }}
+                                    style={{ 
+                                        width: '60px', height: '60px', objectFit: 'cover', 
+                                        borderRadius: '8px', cursor: 'pointer',
+                                        border: selectedImage === idx ? '2px solid rgba(75, 83, 32, 1)' : '2px solid #ddd'
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className="product-details">
-                    <h1 className="product-title">{productName}</h1>
+                    <h1 className="product-title">{product.nama_product}</h1>
                     
                     <div className="product-stats">
                         {hasReview && <span className="stars">★</span>}
-                        <span className="rating-score">{product.ratingText}</span>
+                        <span className="rating-score">{ratingText}</span>
                     </div>
 
                     <div className="product-price">
-                        <span className="current-price">Rp {product.price.toLocaleString('id-ID')}</span>
+                        <span className="current-price">Rp {Number(hargaProduk).toLocaleString('id-ID')}</span>
+                        {product.satuan && (
+                            <span style={{ fontSize: '14px', color: '#888', marginLeft: '5px' }}>/ {product.satuan}</span>
+                        )}
                     </div>
+
+                    {/* Deskripsi produk */}
+                    {product.deskripsi && (
+                        <div style={{ margin: '15px 0', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
+                            <p style={{ margin: 0, fontSize: '14px', color: '#555', lineHeight: '1.6' }}>{product.deskripsi}</p>
+                        </div>
+                    )}
 
                     <div className="delivery-info">
                         <div className="info-row">
                             <span className="icon">🚚</span>
                             <div>
-                                <strong>Gratis Ongkir</strong>
-                                <p>Untuk Seluruh Indonesia</p>
+                                <strong>{product.is_gratis_ongkir ? 'Gratis Ongkir' : 'Ongkir Reguler'}</strong>
+                                {product.asal_kota && <p>Dikirim dari {product.asal_kota}</p>}
                             </div>
                         </div>  
                     </div>
@@ -161,11 +273,13 @@ export default function Productpage() {
                             <input type="text" value={quantity} readOnly />
                             <button onClick={handleIncrease}>+</button>
                         </div>
-                        <span className="stock-info">Tersedia</span>
+                        <span className="stock-info">
+                            Stok: {product.stok !== null && product.stok !== undefined ? `${product.stok} ${product.satuan || 'Barang'}` : 'Tersedia'}
+                        </span>
                     </div>
 
                     <div className="action-buttons">
-                        <button className="btn btn-primary">Beli Sekarang</button>
+                        <button className="btn btn-primary" onClick={handleBuyNow}>Beli Sekarang</button>
                         <button className="btn btn-secondary" onClick={handleAddToCart}>Tambahkan Ke Keranjang</button>
                     </div>
                 </div>
@@ -173,16 +287,43 @@ export default function Productpage() {
 
             <div className="seller-info">
                 <div className="seller-profile">
-                    <div className="seller-avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#e0e0e0', fontSize: '20px' }}>
-                        🏪
+                    <div className="seller-avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                        {seller?.avatar_url ? (
+                            <img 
+                                src={seller.avatar_url} 
+                                alt={seller.nama_toko} 
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                                onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; e.target.parentElement.textContent = '🏪'; }}
+                            />
+                        ) : (
+                            <span style={{ fontSize: '20px' }}>🏪</span>
+                        )}
                     </div>
                     <div className="seller-details">
-                        <h3>{product.seller}</h3>
-                        <p>Aktif Membalas Pesan</p>
+                        <h3>{seller?.nama_toko || 'Toko Komotia'}</h3>
+                        <p>{seller?.kota || product.asal_kota || 'Indonesia'}</p>
                     </div>
                 </div>
-                <button className="btn btn-primary btn-chat">Chat Seller</button>
+                <Link to={`/store/${seller?.id_seller || product.id_seller}`} className="btn btn-primary btn-chat" style={{ textDecoration: 'none', textAlign: 'center' }}>Kunjungi Toko</Link>
             </div>
+
+            {/* Checkout Modal */}
+            <CheckoutModal
+                isOpen={showCheckout}
+                onClose={() => setShowCheckout(false)}
+                items={[{
+                    productId: product.id_product,
+                    productName: product.nama_product,
+                    imageUrl: product.gambar_utama || '',
+                    finalPrice: hargaProduk,
+                    quantity: quantity,
+                    isGratisOngkir: product.is_gratis_ongkir || false,
+                    storeName: seller?.nama_toko || product.asal_kota || 'Toko Komotia',
+                    id_seller: product.id_seller,
+                    category: product.category || '',
+                }]}
+                onSuccess={handleCheckoutSuccess}
+            />
         </div>
     );
 }

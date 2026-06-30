@@ -11,12 +11,13 @@ import {
 import './PerformaToko.css';
 import { UserRound , PackageOpen , PackageX , PackageCheck} from 'lucide-react';
 
-export default function PerformaToko() {
-  // Data dummy untuk statistik toko
+export default function PerformaToko({ seller }) {
+  // Data statistik dari tabel sellers
+  const data = seller || {};
   const stats = {
-    pembeli: 142,
-    selesai: 320,
-    dibatalkan: 5
+    pembeli: data.jumlah_pembeli || 0,
+    selesai: data.pesanan_selesai || 0,
+    dibatalkan: data.pesanan_dibatalkan || 0
   };
 
   // Data dummy untuk grafik pendapatan (7 hari terakhir)

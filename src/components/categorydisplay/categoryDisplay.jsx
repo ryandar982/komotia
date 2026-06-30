@@ -1,18 +1,22 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { dummyProducts } from '../../data/dummyProducts';
+import { useProducts } from '../../hooks/useProducts';
 import './categoryDisplay.css';
 import Card from '../productcard/Productcard';
 
 export default function CategoryDisplay() {
     const { categoryName } = useParams();
+    const { products, loading, error } = useProducts();
 
-    const filteredProducts = dummyProducts.filter(
-        (item) => item.category.toLowerCase() === categoryName.toLowerCase()
-    );
+    // Filter produk berdasarkan kategori dari Supabase
+    const filteredProducts = Array.isArray(products) 
+        ? products.filter(
+            (item) => item.category && item.category.toLowerCase() === categoryName.toLowerCase()
+          )
+        : [];
 
     return (
-        <section className='container ctg-container '> 
+        <section className='container ctg-container '>
             <div className='row align-items-center mb-4 ctg-head'>
                 <div className='col-auto'>
                     <img src='/asset/images/explore-icon.png' width='70' alt="Category Icon"/>
@@ -33,12 +37,24 @@ export default function CategoryDisplay() {
                 <Link to="/category/perlengkapan">Perlengkapan</Link>
             </div>
 
-            {filteredProducts.length > 0 ? (
+            {loading && (
+                <div className="text-center my-5">
+                    <p className="text-muted">Memuat produk kategori...</p>
+                </div>
+            )}
+
+            {error && (
+                <div className="text-center my-5">
+                    <p className="text-danger">Gagal mengambil data: {error}</p>
+                </div>
+            )}
+
+            {!loading && !error && filteredProducts.length > 0 ? (
                 <div className='row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 ctg-product'>
                     {filteredProducts.map((item) => (
-                        <div className='col' key={item.id}>
+                        <div className='col' key={item.id_product}>
                             <Link 
-                                to={`/product/${item.id}`} 
+                                to={`/product/${item.id_product}`} 
                                 className="product-link" 
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >
@@ -47,12 +63,12 @@ export default function CategoryDisplay() {
                         </div>
                     ))}
                 </div>
-            ) : (
+            ) : (!loading && !error && (
                 <div className="text-center py-5 w-100" style={{ backgroundColor: '#f8f9fa', border: '2px dashed #dee2e6', borderRadius: '10px' }}>
                     <p className="text-muted fs-5 mb-3">Belum ada produk untuk kategori ini. 🌱</p>
                     <Link to="/" className="btn btn-success px-4 py-2" style={{ backgroundColor: 'rgba(75, 83, 32, 1)', borderColor: 'rgba(75, 83, 32, 1)' }}>Kembali Belanja</Link>
                 </div>
-            )}
+            ))}
         </section>
     );
 }

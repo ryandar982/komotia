@@ -10,10 +10,14 @@ import SellerDashboard from './pages/SellerDashboard'
 import UserDashboard from './pages/UserDashboard'
 import Category from './pages/Category'
 import SellerLoginPage from './pages/SellerLoginPage'
+import Store from './pages/Store'
+import Search from './pages/Search'
+
 const Router = () => {
   return (
     <Routes>
         <Route index element={<Home />} /> 
+        <Route path='search' element={<Search />} />
         <Route path='about' element={<About />} />
         <Route path='cart' element={<Cart />} />
         <Route path='register' element={<Register />} />
@@ -29,6 +33,9 @@ const Router = () => {
         <Route path='user-dashboard' element={<UserDashboard/>}/>
         <Route path='category/:categoryName' element={<Category />} />
         <Route path='seller-login' element={<SellerLoginPage />} />
+
+        {/* Halaman Toko */}
+        <Route path='store/:sellerId' element={<Store />} />
     </Routes>
   )
 }

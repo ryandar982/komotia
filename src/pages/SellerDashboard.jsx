@@ -7,7 +7,7 @@ const SellerDashboard = () => {
     const [search, setSearch] = useState("");
     return (
     <>
-        <NavDashboard/>
+        <NavDashboard type="seller" />
         <SellerDash/>
     </>
     );

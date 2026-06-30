@@ -1,7 +1,7 @@
-import React from 'react';
 import Navbar from '../components/navbar/Navbar';
 import Productpage from '../components/productpage/productpage';
 import { useState } from 'react';
+import Footer from '../components/footer/Footer';
 
 const Product = () => {
   const [search, setSearch] = useState("");
@@ -9,6 +9,7 @@ const Product = () => {
     <>
         <Navbar search={search} setSearch={setSearch}/>
         <Productpage/>
+        <Footer/>
     </>
   )
 }

@@ -1,0 +1,579 @@
+/* ==============================
+   KolektifModal Styles
+   ============================== */
+
+/* Overlay */
+.kolektif-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+  animation: kolektifOverlayIn 0.2s ease;
+}
+
+@keyframes kolektifOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal Container */
+.kolektif-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: kolektifModalSlideUp 0.3s ease;
+}
+
+@keyframes kolektifModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Header */
+.kolektif-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.kolektif-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kolektif-modal-header h2 svg {
+  color: #4f6436;
+}
+
+.kolektif-modal-close {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.kolektif-modal-close:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+/* Body */
+.kolektif-modal-body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Product Info */
+.kolektif-modal-product {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  background: #fafbf8;
+  border-radius: 12px;
+  border: 1px solid #e8eddf;
+}
+
+.kolektif-modal-img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.kolektif-modal-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+}
+
+.kolektif-modal-product-info h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+}
+
+.kolektif-modal-seller {
+  font-size: 12px;
+  color: #888;
+}
+
+.kolektif-modal-prices {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-price-original {
+  font-size: 13px;
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+.modal-price-kolektif {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4f6436;
+}
+
+.modal-discount-badge {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #2e7d32;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Progress Section */
+.kolektif-modal-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kolektif-modal-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #666;
+}
+
+.kolektif-modal-progress-header span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kolektif-modal-progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e8eddf;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.kolektif-modal-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b8f4a, #4f6436);
+  border-radius: 5px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+
+.kolektif-modal-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.kolektif-modal-remaining {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* Countdown */
+.kolektif-modal-countdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #f57f17;
+}
+
+.kolektif-modal-countdown.expired {
+  background: #fce4ec;
+  border-color: #ef9a9a;
+  color: #c62828;
+}
+
+/* Quantity Section */
+.kolektif-modal-qty-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.kolektif-modal-qty-section label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.kolektif-modal-qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.kolektif-qty-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.15s ease;
+}
+
+.kolektif-qty-btn:hover:not(:disabled) {
+  background: #e8eddf;
+  color: #4f6436;
+}
+
+.kolektif-qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.kolektif-qty-input {
+  width: 48px;
+  height: 36px;
+  text-align: center;
+  border: none;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  background: #fff;
+  outline: none;
+}
+
+.kolektif-modal-max {
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+}
+
+/* Summary */
+.kolektif-modal-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: #fafbf8;
+  border-radius: 10px;
+  border: 1px solid #e8eddf;
+}
+
+.kolektif-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+}
+
+.kolektif-summary-row.savings {
+  color: #2e7d32;
+}
+
+.savings-amount {
+  font-weight: 600;
+}
+
+.kolektif-summary-row.total {
+  padding-top: 10px;
+  margin-top: 4px;
+  border-top: 1px dashed #d0dfc1;
+  font-weight: 700;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Info Notice */
+.kolektif-modal-notice {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #f0f4ff;
+  border: 1px solid #c8d6f0;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.kolektif-modal-notice span {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.kolektif-modal-notice p {
+  margin: 0;
+}
+
+/* Join Button */
+.kolektif-modal-join-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #5a7a3a, #4f6436);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 100, 54, 0.3);
+}
+
+.kolektif-modal-join-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4f6436, #3d5028);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(79, 100, 54, 0.35);
+}
+
+.kolektif-modal-join-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.kolektif-modal-join-btn.already-joined {
+  background: #e8eddf;
+  color: #4f6436;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* Processing */
+.kolektif-modal-processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+}
+
+.kolektif-spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid #e8eddf;
+  border-top-color: #4f6436;
+  border-radius: 50%;
+  animation: kolektifSpin 0.7s linear infinite;
+}
+
+@keyframes kolektifSpin {
+  to { transform: rotate(360deg); }
+}
+
+.kolektif-modal-processing p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Success */
+.kolektif-modal-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px 30px;
+  gap: 12px;
+}
+
+.kolektif-success-icon {
+  color: #4caf50;
+  animation: kolektifSuccessPop 0.4s ease;
+}
+
+@keyframes kolektifSuccessPop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.kolektif-modal-success h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.kolektif-modal-success p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.kolektif-fulfilled-notice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 10px;
+  font-size: 13px;
+  color: #2e7d32;
+  margin: 4px 0;
+}
+
+.kolektif-fulfilled-notice span {
+  font-size: 20px;
+}
+
+.kolektif-fulfilled-notice p {
+  margin: 0;
+  color: #2e7d32;
+}
+
+.kolektif-success-waiting {
+  color: #888 !important;
+  font-style: italic;
+}
+
+.kolektif-modal-success-btn {
+  margin-top: 8px;
+  padding: 12px 40px;
+  background: #4f6436;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kolektif-modal-success-btn:hover {
+  background: #3d5028;
+}
+
+/* Error */
+.kolektif-modal-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px 30px;
+  gap: 12px;
+}
+
+.kolektif-error-icon {
+  color: #e53935;
+}
+
+.kolektif-modal-error h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.kolektif-modal-error p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.kolektif-modal-retry-btn {
+  margin-top: 8px;
+  padding: 12px 40px;
+  background: #fff;
+  color: #4f6436;
+  border: 2px solid #4f6436;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kolektif-modal-retry-btn:hover {
+  background: #4f6436;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .kolektif-modal {
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 95vh;
+  }
+
+  .kolektif-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .kolektif-modal-product {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .kolektif-modal-img {
+    width: 100%;
+    height: 140px;
+  }
+
+  .kolektif-modal-qty-section {
+    flex-wrap: wrap;
+  }
+}

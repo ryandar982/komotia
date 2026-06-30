@@ -1,74 +1,83 @@
 .product-display {
     background-color: rgb(255, 255, 255);
-    padding: 3px;
     width: 100%; 
     box-sizing: border-box;
     /* Pertahankan tinggi minimal kamu */
     min-height: 333px;
     display: flex;
     flex-direction: column;
-    transition: 0.2s;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.105), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
 
 .product-image {
     /* Gambar sekarang lebarnya mengikuti kartu */
     width: 100%;
-    height: 200px;
+    height: 190px;
     object-fit: cover;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .product-display:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
 }
 
 
 .product-info {
-    /* Tetap mempertahankan warna biru penandamu */
     background-color: rgb(255, 255, 255); 
     display: flex;
     flex-direction: row;
-    padding: 0px;
+    padding: 12px 14px;
     flex: 1; /* Agar mengisi sisa ruang di bawah gambar */
+    gap: 8px;
 }
 
 .product-info h1 {
-    font-size: 18px;
-    display: flex;
-    flex-direction: column;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 500;
+    margin: 0;
+    color: #333;
+    
+    /* Membatasi maksimal 2 baris */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    max-height: 57px;
-    min-height: 57px;
-    text-decoration: none;
-    color: black;
+    text-overflow: ellipsis;
+    min-height: 42px; /* Sekitar 2 baris (15px * 1.4 * 2) */
 }
 
 .product-info h2 {
-    font-size: 18px;
-    display: flex;
-    flex-direction: column;
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(75, 83, 32); /* Sesuai warna icon keranjang */
+    margin: 4px 0 0 0;
+    white-space: nowrap;
     overflow: hidden;
-    max-height: 21px;
-    text-decoration: none;
-    color: black;
+    text-overflow: ellipsis;
 }
 
 .product-left {
     display: flex;
     flex-direction: column;
-    /* Ganti max-width statis jadi fleksibel */
     flex: 1; 
-    gap: 10px;
+    gap: 6px;
     overflow: hidden;
     min-width: 0; /* Penting agar teks panjang tidak merusak lebar */
+    justify-content: space-between;
 }
 
 .product-right {
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    gap: 5px;
-    margin-left: 5px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 32px;
 }
 
 /* Sisanya (star-icon, tooltip, add-cart) tetap sama seperti kodemu sebelumnya */

@@ -4,8 +4,8 @@ import './App.css'; // Opsional: kamu bisa menghapus isinya atau biarkan untuk s
 
 // Import komponen yang sudah kita buat (Sesuaikan path/lokasi foldernya dengan struktur proyekmu)
 import CategoryBar from './components/navbar/categoryBar'; // Contoh path
-import SellerLogin from './components/sellerLogin/SellerLogin'; // Contoh path
-import SellerMain from './components/sellerDashboard/SellerMain'; // Contoh path
+import SellerLogin from './components/sellerlogin/sellerLogin'; // Contoh path
+import SellerMain from './components/sellerdashboard/SellerMain'; // Contoh path
 
 // Membuat komponen Home sederhana sebagai tempat CategoryBar
 const Home = () => {

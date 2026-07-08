@@ -1,5 +1,5 @@
 import Navbar from '../components/navbar/Navbar';
-import Productpage from '../components/productpage/productpage';
+import Productpage from '../components/productpage/Productpage';
 import { useState } from 'react';
 import Footer from '../components/footer/Footer';
 

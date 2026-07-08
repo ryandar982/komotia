@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import Navbar from '../components/navbar/Navbar';
-import Registerform from '../components/authreg/registerform';
+import Registerform from '../components/authreg/Registerform';
 import Footer from '../components/footer/Footer';
 
 const Register = () => {

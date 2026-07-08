@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Store, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle, User, MapPin, Building2, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import './SellerLogin.css';
+import './sellerLogin.css';
 import { supabase } from '../../config/supabaseClient';
 
 export default function SellerLogin() {

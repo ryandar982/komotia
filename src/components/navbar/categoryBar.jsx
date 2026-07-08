@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { LayoutGrid } from 'lucide-react';
-import './CategoryBar.css';
+import './categoryBar.css';
 import SellerCenter from '../profilecard/sellerCenter';
 // import { Store, LogOut } from 'lucide-react'; // Hapus jika tidak digunakan di file ini
 

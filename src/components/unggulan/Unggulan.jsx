@@ -1,5 +1,5 @@
 // File: src/components/unggulan/Unggulan.jsx
-import './unggulan.css';
+import './Unggulan.css';
 
 export default function Unggulan({}){
     // 1. Perbarui data category dengan menambahkan path gambar yang absolut (pakai /)

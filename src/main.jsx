@@ -1,8 +1,8 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom"; // <-- PENTING: Gunakan react-router-dom
-import App from "./app";
+import App from "./App";
 import './index.css'
-import Router from "./router";
+import Router from "./Router";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const root = document.getElementById("root");

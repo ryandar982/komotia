@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './UserOrderHistory.css';
+import { supabase } from '../../config/supabaseClient';
 
 export default function UserOrderHistory({ data }) {
-  const [filter, setFilter] = React.useState('Semua Pesanan');
+  const [filter, setFilter] = useState('Semua Pesanan');
+  const [reviewModal, setReviewModal] = useState(null); // { item, orderId }
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewHover, setReviewHover] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reviewedItems, setReviewedItems] = useState(new Set());
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -12,20 +19,91 @@ export default function UserOrderHistory({ data }) {
     }).format(number);
   };
 
+  // Normalisasi status agar konsisten dengan format yang digunakan seller
+  const normalizeStatus = (status) => {
+    if (!status) return 'pending';
+    const s = status.toLowerCase();
+    if (s === 'pending' || s === 'perlu diproses' || s === 'menunggu konfirmasi') return 'pending';
+    if (s === 'selesai' || s === 'pesanan selesai') return 'selesai';
+    if (s === 'dibatalkan' || s === 'pesanan dibatalkan' || s === 'sedang dibatalkan') return 'dibatalkan';
+    return s;
+  };
+
   const filteredData = (data || []).filter(order => {
     if (filter === 'Semua Pesanan') return true;
-    if (filter === 'Pesanan Selesai' && order.status === 'selesai') return true;
-    if (filter === 'Pesanan Dibatalkan' && order.status === 'dibatalkan') return true;
-    if (filter === 'Menunggu Konfirmasi' && order.status === 'pending') return true;
+    const normalized = normalizeStatus(order.status);
+    if (filter === 'Pesanan Selesai' && normalized === 'selesai') return true;
+    if (filter === 'Pesanan Dibatalkan' && normalized === 'dibatalkan') return true;
     return false;
   });
 
   const getStatusInfo = (status) => {
-    switch (status) {
+    const normalized = normalizeStatus(status);
+    switch (normalized) {
       case 'selesai': return { label: 'SELESAI', className: 'status-success' };
       case 'pending': return { label: 'PENDING', className: 'status-warning' };
       case 'dibatalkan': return { label: 'DIBATALKAN', className: 'status-danger' };
-      default: return { label: status.toUpperCase(), className: 'status-default' };
+      default: return { label: (status || '').toUpperCase(), className: 'status-default' };
+    }
+  };
+
+  const openReviewModal = (item, orderId) => {
+    setReviewModal({ item, orderId });
+    setReviewRating(0);
+    setReviewHover(0);
+    setReviewComment('');
+  };
+
+  const closeReviewModal = () => {
+    setReviewModal(null);
+    setReviewRating(0);
+    setReviewHover(0);
+    setReviewComment('');
+  };
+
+  const handleSubmitReview = async () => {
+    if (reviewRating === 0) {
+      alert('Silakan pilih rating bintang terlebih dahulu.');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      // Ambil data user dari localStorage
+      const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const reviewerName = savedUser.nama || savedUser.username || 'Anonim';
+      const reviewerAvatar = savedUser.avatar_url || null;
+
+      const reviewData = {
+        id_product: parseInt(reviewModal.item.id_product),
+        id_user: savedUser.id_user || null,
+        rating: reviewRating,
+        komentar: reviewComment.trim() || null,
+        id_detail: reviewModal.item.id_detail || null
+      };
+
+      const { error } = await supabase
+        .from('reviews')
+        .upsert(reviewData, { onConflict: 'id_user, id_product' });
+
+      if (error) throw error;
+
+      alert('Ulasan berhasil dikirim! Terima kasih atas feedback Anda. 🎉');
+      
+      // Tandai item sudah di-review agar tombolnya berubah
+      setReviewedItems(prev => {
+        const updated = new Set(prev);
+        updated.add(`${reviewModal.orderId}-${reviewModal.item.id_product}`);
+        return updated;
+      });
+
+      closeReviewModal();
+    } catch (err) {
+      console.error('Error submitting review:', err);
+      alert('Gagal mengirim ulasan: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -40,7 +118,7 @@ export default function UserOrderHistory({ data }) {
       {/* TABS SECTION */}
       <div className="uoh-tabs-container">
         <div className="uoh-tabs">
-          {['Semua Pesanan', 'Menunggu Konfirmasi', 'Pesanan Selesai', 'Pesanan Dibatalkan'].map(tab => (
+          {['Semua Pesanan', 'Pesanan Selesai', 'Pesanan Dibatalkan'].map(tab => (
             <button 
               key={tab}
               className={`uoh-tab-btn ${filter === tab ? 'active' : ''}`}
@@ -57,6 +135,7 @@ export default function UserOrderHistory({ data }) {
         {filteredData.length > 0 ? (
           filteredData.map(order => {
             const statusInfo = getStatusInfo(order.status);
+            const isSelesai = normalizeStatus(order.status) === 'selesai';
             
             return (
               <div key={order.id} className="uoh-order-card">
@@ -74,28 +153,49 @@ export default function UserOrderHistory({ data }) {
                 
                 {/* Card Body: Items */}
                 <div className="uoh-card-body">
-                  {order.items.map(item => (
-                    <div key={item.id_detail} className="uoh-item-row">
-                      <div className="uoh-item-image-wrapper">
-                        <img 
-                          src={item.imageUrl || 'https://via.placeholder.com/80'} 
-                          alt={item.productName} 
-                          className="uoh-item-image"
-                          onError={(e) => { e.target.onerror = null; e.target.src = '/asset/images/item/item1.jpg'; }}
-                        />
-                      </div>
-                      <div className="uoh-item-details">
-                        <h4 className="uoh-item-name">{item.productName}</h4>
-                        <p className="uoh-item-store">
-                          <span className="store-icon">🏪</span> Toko: {item.storeName}
-                        </p>
-                        <div className="uoh-item-price-qty">
-                          <span className="uoh-item-qty">{item.quantity} x</span>
-                          <span className="uoh-item-price">{formatRupiah(item.price)}</span>
+                  {order.items.map(item => {
+                    const reviewKey = `${order.id}-${item.id_product}`;
+                    const alreadyReviewed = reviewedItems.has(reviewKey);
+
+                    return (
+                      <div key={item.id_detail} className="uoh-item-row">
+                        <div className="uoh-item-image-wrapper">
+                          <img 
+                            src={item.imageUrl || 'https://via.placeholder.com/80'} 
+                            alt={item.productName} 
+                            className="uoh-item-image"
+                            onError={(e) => { e.target.onerror = null; e.target.src = '/asset/images/item/item1.jpg'; }}
+                          />
                         </div>
+                        <div className="uoh-item-details">
+                          <h4 className="uoh-item-name">{item.productName}</h4>
+                          <p className="uoh-item-store">
+                            <span className="store-icon">🏪</span> Toko: {item.storeName}
+                          </p>
+                          <div className="uoh-item-price-qty">
+                            <span className="uoh-item-qty">{item.quantity} x</span>
+                            <span className="uoh-item-price">{formatRupiah(item.price)}</span>
+                          </div>
+                        </div>
+
+                        {/* Tombol Tulis Ulasan - hanya muncul pada pesanan selesai */}
+                        {isSelesai && (
+                          <div className="uoh-review-btn-wrapper">
+                            {alreadyReviewed ? (
+                              <span className="uoh-reviewed-badge">✓ Sudah Diulas</span>
+                            ) : (
+                              <button 
+                                className="uoh-btn-review"
+                                onClick={() => openReviewModal(item, order.id)}
+                              >
+                                ✍ Tulis Ulasan
+                              </button>
+                            )}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {/* Card Footer */}
@@ -120,6 +220,80 @@ export default function UserOrderHistory({ data }) {
           </div>
         )}
       </div>
+
+      {/* ===== REVIEW MODAL ===== */}
+      {reviewModal && (
+        <div className="uoh-review-overlay" onClick={closeReviewModal}>
+          <div className="uoh-review-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="uoh-review-modal-header">
+              <h3>Tulis Ulasan</h3>
+              <button className="uoh-review-close" onClick={closeReviewModal}>✕</button>
+            </div>
+
+            {/* Product Info */}
+            <div className="uoh-review-product">
+              <img 
+                src={reviewModal.item.imageUrl || 'https://via.placeholder.com/60'} 
+                alt={reviewModal.item.productName}
+                className="uoh-review-product-img"
+                onError={(e) => { e.target.onerror = null; e.target.src = '/asset/images/item/item1.jpg'; }}
+              />
+              <div>
+                <h4 className="uoh-review-product-name">{reviewModal.item.productName}</h4>
+                <p className="uoh-review-product-store">🏪 Toko: {reviewModal.item.storeName}</p>
+              </div>
+            </div>
+
+            {/* Star Rating */}
+            <div className="uoh-review-rating-section">
+              <p className="uoh-review-rating-label">Bagaimana penilaian Anda?</p>
+              <div className="uoh-review-stars-input">
+                {[1, 2, 3, 4, 5].map(star => (
+                  <span
+                    key={star}
+                    className={`uoh-review-star ${star <= (reviewHover || reviewRating) ? 'active' : ''}`}
+                    onClick={() => setReviewRating(star)}
+                    onMouseEnter={() => setReviewHover(star)}
+                    onMouseLeave={() => setReviewHover(0)}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <p className="uoh-review-rating-text">
+                {reviewRating === 1 && 'Sangat Buruk'}
+                {reviewRating === 2 && 'Buruk'}
+                {reviewRating === 3 && 'Cukup'}
+                {reviewRating === 4 && 'Baik'}
+                {reviewRating === 5 && 'Sangat Baik'}
+              </p>
+            </div>
+
+            {/* Comment */}
+            <div className="uoh-review-comment-section">
+              <label className="uoh-review-comment-label">Komentar (opsional)</label>
+              <textarea
+                className="uoh-review-textarea"
+                placeholder="Ceritakan pengalaman Anda dengan produk ini..."
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+                rows={4}
+                maxLength={500}
+              />
+              <span className="uoh-review-char-count">{reviewComment.length}/500</span>
+            </div>
+
+            {/* Submit Button */}
+            <button 
+              className="uoh-review-submit"
+              onClick={handleSubmitReview}
+              disabled={isSubmitting || reviewRating === 0}
+            >
+              {isSubmitting ? 'Mengirim...' : 'Kirim Ulasan'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

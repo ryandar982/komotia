@@ -123,7 +123,7 @@ export default function CheckoutModal({ isOpen, onClose, items = [], onSuccess }
             id_seller: sellerId,
             tanggal_transaksi: new Date().toISOString(),
             total_harga: sellerGrandTotal,
-            status: 'pending',
+            status: 'selesai',
             alamat_pengiriman: address,
             metode_pembayaran: paymentMethodName,
             kurir: courierName,
@@ -161,7 +161,7 @@ export default function CheckoutModal({ isOpen, onClose, items = [], onSuccess }
               buyer_username: buyerUsername,
               id_user: userId,
               id_seller: sellerId,
-              status: 'Perlu Diproses',
+              status: 'Selesai',
               total_amount: sellerGrandTotal
             })
             .select()
@@ -193,7 +193,7 @@ export default function CheckoutModal({ isOpen, onClose, items = [], onSuccess }
           id: newTrxId,
           orderId: newOrderId,
           date: new Date().toISOString(),
-          status: 'Perlu Diproses',
+          status: 'Selesai',
           paymentMethod: paymentMethodName,
           courier: courierName,
           courierEstimate: COURIERS.find(c => c.id === selectedCourier)?.estimate || '',

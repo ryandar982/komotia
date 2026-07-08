@@ -304,3 +304,252 @@
   margin: 0;
   max-width: 300px;
 }
+
+/* ===== Review Button & Badge ===== */
+.uoh-review-btn-wrapper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.uoh-btn-review {
+  background: #4b5320;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.uoh-btn-review:hover {
+  background: #5c6428;
+  box-shadow: 0 4px 12px rgba(75, 83, 32, 0.3);
+}
+
+.uoh-reviewed-badge {
+  font-size: 13px;
+  font-weight: 600;
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* ===== Review Modal ===== */
+.uoh-review-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.uoh-review-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.uoh-review-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.uoh-review-modal-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.uoh-review-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #9ca3af;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.uoh-review-close:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Product info in modal */
+.uoh-review-product {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  background: #f9fafb;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.uoh-review-product-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #e5e7eb;
+}
+
+.uoh-review-product-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.uoh-review-product-store {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Star rating input */
+.uoh-review-rating-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.uoh-review-rating-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+.uoh-review-stars-input {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.uoh-review-star {
+  font-size: 36px;
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.uoh-review-star:hover,
+.uoh-review-star.active {
+  color: #fbbf24;
+  transform: scale(1.15);
+}
+
+.uoh-review-rating-text {
+  font-size: 14px;
+  color: #4b5320;
+  font-weight: 600;
+  margin: 8px 0 0 0;
+  min-height: 20px;
+}
+
+/* Comment textarea */
+.uoh-review-comment-section {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.uoh-review-comment-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.uoh-review-textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  color: #374151;
+}
+
+.uoh-review-textarea:focus {
+  outline: none;
+  border-color: #4b5320;
+  box-shadow: 0 0 0 3px rgba(75, 83, 32, 0.1);
+}
+
+.uoh-review-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.uoh-review-char-count {
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: right;
+  display: block;
+  margin-top: 6px;
+}
+
+/* Submit button */
+.uoh-review-submit {
+  width: 100%;
+  padding: 14px;
+  background: #4b5320;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.uoh-review-submit:hover:not(:disabled) {
+  background: #5c6428;
+  box-shadow: 0 4px 16px rgba(75, 83, 32, 0.3);
+}
+
+.uoh-review-submit:disabled {
+  background: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+}

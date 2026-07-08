@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../config/supabaseClient';
 import './Sellerdash.css';
 import DashMain from './SellerDashMain';
 import ProductManager from './ProductManager';
 import BuatDagangan from './BuatDagangan';
 import RiwayatPesanan from './RiwayatPesanan';
 import ProfileSeller from './PengaturanProfile';
-import UlasanPembeli from './UlasanPembeli';
 import KelolaKolektif from './KelolaKolektif';
 import { 
   LayoutDashboard, 
@@ -15,7 +15,6 @@ import {
   Package, 
   PackageOpen,
   ClipboardClock,
-  CircleStar,
   Users,
   LogOut 
 } from 'lucide-react';
@@ -23,7 +22,6 @@ import {
 import { useSellerData } from '../../hooks/useSellerData';
 import { useSellerOrders } from '../../hooks/useSellerOrders';
 import { useSellerProducts } from '../../hooks/useSellerProducts';
-import { useSellerReviews } from '../../hooks/useSellerReviews';
 
 export default function SellerMain() {
   const [isProdukOpen, setIsProdukOpen] = useState(false);
@@ -37,7 +35,6 @@ export default function SellerMain() {
   const { seller, loading: sellerLoading } = useSellerData(sellerId);
   const { orders, loading: ordersLoading } = useSellerOrders(sellerId);
   const { products, loading: productsLoading, refetchProducts } = useSellerProducts(sellerId);
-  const { reviews, loading: reviewsLoading } = useSellerReviews(sellerId);
 
   useEffect(() => {
     if (!sellerId) {
@@ -205,13 +202,6 @@ export default function SellerMain() {
             </div>
 
             <div 
-              className={`opsi-seller ${activeMenu === 'Ulasan' ? 'active' : ''}`} 
-              onClick={() => handleMenuClick('Ulasan')}
-            >
-              <CircleStar/>Ulasan
-            </div>
-
-            <div 
               className={`opsi-seller ${activeMenu === 'Kolektif' ? 'active' : ''}`} 
               onClick={() => handleMenuClick('Kolektif')}
             >
@@ -250,9 +240,6 @@ export default function SellerMain() {
                 handleMenuClick('Produk Saya');
               }} 
             />
-          )}
-          {activeMenu === 'Ulasan' && (
-            reviewsLoading ? <p>Memuat ulasan...</p> : <UlasanPembeli reviews={reviews} />
           )}
           {activeMenu === 'Kolektif' && (
             <KelolaKolektif sellerId={sellerId} />

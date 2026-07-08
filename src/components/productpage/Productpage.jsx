@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../../config/supabaseClient';
 import CheckoutModal from '../checkout/CheckoutModal';
+import ProductReviews from './ProductReviews';
 
 export default function Productpage() {
     const { id } = useParams();
@@ -306,6 +307,9 @@ export default function Productpage() {
                 </div>
                 <Link to={`/store/${seller?.id_seller || product.id_seller}`} className="btn btn-primary btn-chat" style={{ textDecoration: 'none', textAlign: 'center' }}>Kunjungi Toko</Link>
             </div>
+
+            {/* Ulasan Produk */}
+            <ProductReviews productId={product.id_product} />
 
             {/* Checkout Modal */}
             <CheckoutModal

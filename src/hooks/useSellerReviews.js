@@ -42,7 +42,7 @@ export function useSellerReviews(idSeller) {
                 rating: rev.rating,
                 productId: rev.id_product,
                 productBought: rev.product_bought,
-                comment: rev.comment,
+                comment: rev.komentar,
                 createdAt: rev.created_at
             };
         });

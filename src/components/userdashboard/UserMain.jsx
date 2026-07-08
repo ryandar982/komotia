@@ -62,7 +62,7 @@ export default function UserMain() {
     }
   };
 
-  const isPesananSectionActive = activeUserMenu === 'Menunggu Pembayaran' || activeUserMenu === 'Riwayat Transaksi';
+  const isPesananSectionActive = activeUserMenu === 'Riwayat Transaksi';
 
   if (userLoading) {
     return <div style={{ padding: '40px', textAlign: 'center' }}>Memuat data pengguna...</div>;
@@ -73,7 +73,10 @@ export default function UserMain() {
   }
 
   // Pisahkan pesanan pending (menunggu pembayaran)
-  const waitingOrders = orders.filter(order => order.status === 'pending');
+  const waitingOrders = orders.filter(order => {
+    const s = (order.status || '').toLowerCase();
+    return s === 'pending' || s === 'perlu diproses' || s === 'menunggu konfirmasi';
+  });
 
   return (
     <div className='container-dashboard'>
@@ -140,12 +143,6 @@ export default function UserMain() {
             <div className={`sub-menu-user ${isPesananOpen ? 'open' : ''}`}>
               <div className='inner-sub-menu'>
                 <div 
-                  className={`opsi-user sub-opsi ${activeUserMenu === 'Menunggu Pembayaran' ? 'active' : ''}`} 
-                  onClick={() => handleUserMenuClick('Menunggu Pembayaran')}
-                >
-                  <History/>Menunggu Pembayaran
-                </div>
-                <div 
                   className={`opsi-user sub-opsi ${activeUserMenu === 'Riwayat Transaksi' ? 'active' : ''}`} 
                   onClick={() => handleUserMenuClick('Riwayat Transaksi')}
                 >
@@ -177,9 +174,6 @@ export default function UserMain() {
         <div className='content-user' style={{ flex: 1, padding: '40px' }}>
           {activeUserMenu === 'Dashboard' && <UserDashMain data={userData} walletBalance={userData.saldo_wallet} /> }
           {activeUserMenu === 'Profile Saya' && <UserProfile data={userData} />}
-          {activeUserMenu === 'Menunggu Pembayaran' && (
-            ordersLoading ? <p>Memuat pesanan...</p> : <UserWaiting data={waitingOrders} />
-          )}
           {activeUserMenu === 'Riwayat Transaksi' && (
              ordersLoading ? <p>Memuat pesanan...</p> : <UserOrderHistory data={orders} />
           )}

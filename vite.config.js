@@ -9,6 +9,6 @@ export default defineConfig(({ command }) => {
       react(),
       tailwindcss(),
     ],
-    base: command === 'build' ? '/komotia/' : '/',
+    base: '/',
   };
 });

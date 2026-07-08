@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ItemPesanan.css';
+import { supabase } from '../../config/supabaseClient';
 
 export default function ItemPesanan({ order }) {
+  const [isProcessing, setIsProcessing] = useState(false);
+
   // Antisipasi jika data order tidak ada (belum ter-load)
   if (!order) return null;
 
@@ -21,6 +24,52 @@ export default function ItemPesanan({ order }) {
       minute: '2-digit' 
     };
     return `${date.toLocaleDateString('id-ID', options).replace('.', ':')} WIB`;
+  };
+
+  const handleProsesPesanan = async () => {
+    if (window.confirm('Apakah Anda yakin ingin memproses pesanan ini?')) {
+      try {
+        setIsProcessing(true);
+        
+        // 1. Update status di tabel orders (untuk Seller Dashboard)
+        const { error: orderError } = await supabase
+          .from('orders')
+          .update({ status: 'Pesanan Selesai' })
+          .eq('id_order', order.id);
+
+        if (orderError) throw orderError;
+
+        // 2. Ambil data order lengkap untuk mendapatkan id_user dan id_seller
+        const { data: orderData, error: fetchError } = await supabase
+          .from('orders')
+          .select('id_user, id_seller, total_amount, created_at')
+          .eq('id_order', order.id)
+          .single();
+
+        if (!fetchError && orderData) {
+          // 3. Update status di tabel transactions (untuk User Dashboard)
+          // Cocokkan berdasarkan id_user, id_seller, dan total_harga
+          const { error: trxError } = await supabase
+            .from('transactions')
+            .update({ status: 'Pesanan Selesai' })
+            .eq('id_user', orderData.id_user)
+            .eq('id_seller', orderData.id_seller)
+            .eq('total_harga', orderData.total_amount);
+
+          if (trxError) {
+            console.warn('Gagal update tabel transactions:', trxError.message);
+          }
+        }
+        
+        alert('Pesanan berhasil diproses!');
+        window.location.reload();
+      } catch (error) {
+        console.error('Error processing order:', error);
+        alert('Gagal memproses pesanan: ' + error.message);
+      } finally {
+        setIsProcessing(false);
+      }
+    }
   };
 
   return (
@@ -69,10 +118,15 @@ export default function ItemPesanan({ order }) {
 
       {/* BAGIAN BAWAH: Tombol Aksi */}
       <div className="ip-footer">
-        <button className="ip-btn ip-btn-outline">Hubungi Pembeli</button>
-        {/* Tombol aksi bisa disesuaikan dengan status pesanan (misal: kalau status selesai, tombol proses dihilangkan) */}
+        {/* Tombol aksi bisa disesuaikan dengan status pesanan */}
         {order.status === 'Perlu Diproses' && (
-          <button className="ip-btn ip-btn-primary">Proses Pesanan</button>
+          <button 
+            className="ip-btn ip-btn-primary" 
+            onClick={handleProsesPesanan}
+            disabled={isProcessing}
+          >
+            {isProcessing ? 'Memproses...' : 'Proses Pesanan'}
+          </button>
         )}
       </div>
     </div>

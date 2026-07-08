@@ -26,13 +26,7 @@ export default function UserDashMain({ data, walletBalance }) {
     <div className='dashmain-container'>
         <strong>Aktivitas User</strong>
         <section className='dashmain-content first'>
-            <div>
-            Menunggu Pembayaran
-            <div className='seller-icon-bar'>
-                <CreditCard className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
-                <h3>{data?.menunggu_bayar || 0}</h3>
-            </div>
-            </div>
+
             <div>Sedang Dikirim
                 <div className='seller-icon-bar'>
                 <Truck className='seller-dash-icon' size={iconSize} strokeWidth={iconStroke} />
